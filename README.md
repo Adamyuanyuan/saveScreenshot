@@ -1,0 +1,2 @@
+# baidu_saveScreenshot
+自动化异地跨平台网页截图工具的开发
