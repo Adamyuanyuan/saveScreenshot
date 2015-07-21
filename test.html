@@ -1,0 +1,53 @@
+<html>
+<meta charset="utf-8">
+
+<head>
+<style type="text/css">
+h1 
+{
+	color: red;
+}
+p {color: blue}
+span {color: gray}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+</head>
+
+<body>
+<script type="text/javascript"> 
+var Sys = {}; 
+var ua = navigator.userAgent.toLowerCase(); 
+document.write("<h1>" + ua + "</h1>");
+var s; 
+(s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : 
+(s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] : 
+(s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] : 
+(s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] : 
+(s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0; 
+
+//以下进行测试 
+if (Sys.ie) document.write('IE: ' + Sys.ie); 
+if (Sys.firefox) document.write('Firefox: ' + Sys.firefox); 
+if (Sys.chrome) document.write("<h1>" + 'Chrome: ' + Sys.chrome + "</h1>"); 
+if (Sys.opera) document.write('Opera: ' + Sys.opera); 
+if (Sys.safari) document.write('Safari: ' + Sys.safari); 
+
+</script> 
+
+<script src="http://pv.sohu.com/cityjson?ie=utf-8
+"></script>
+<script>
+var cname = returnCitySN.cname;
+var cip = returnCitySN.cip;
+var cid = returnCitySN.cid;
+document.write("<h1>" + cname + "</h1>");
+document.write("<h1>" + cip + "</h1>");
+document.write("<h1>" + cid + "</h1>");
+// if(cname.indexOf("上海市") >= 0) {
+// 	window.location.href="http://www.baidu.net/"; 
+// }
+</script>
+
+</body>
+</html>
