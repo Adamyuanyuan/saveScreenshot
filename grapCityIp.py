@@ -1,4 +1,6 @@
-#-*-coding:utf8-*-
+# -*- coding:  utf-8 -*-
+#!/usr/bin/python
+# author: wangxiaogang02@baidu.com
 
 import urllib2
 import re
@@ -47,7 +49,7 @@ class ProxyGet(threading.Thread):
             city_cn = row[3]
             speed = row[4]
             proxy = [ip,port,province_en,city_cn,speed]
-            print(proxy)
+            # print(proxy)
             rawProxyList.append(proxy)
 
     def run(self):
@@ -139,50 +141,3 @@ def main():
 
 if __name__ == "__main__":
         main()
-
-# #对每个目标网站开启一个线程负责抓取代理
-# for i in range(len(targets)):
-#     t_beijing = ProxyGet(targets[i],p_all)
-#     getThreads.append(t_beijing)
-
-# for i in range(len(getThreads)):
-#     getThreads[i].start()
-
-# for i in range(len(getThreads)):
-#     getThreads[i].join()
-
-# print '.'*10+"总共抓取了%s个代理" %len(rawProxyList) +'.'*10
-
-# TIME_FORMAT = '%Y%m%d_%H'
-# # today = datetime.date.today()
-# # 此处windows处路径为\,若转为Linux下服务，可能需要修改
-# fileBeforePath = "proxyList/proxyListRaw." + time.strftime(TIME_FORMAT)
-# fileAfterPath = "proxyList/proxyListAfter." + time.strftime(TIME_FORMAT)
-# #持久化验证前的数据
-# fileBefore = open(fileBeforePath,'w+')
-# for proxy in sorted(rawProxyList, cmp=lambda x,y:cmp(x[4],y[4])):
-#     print "raw proxy is: %s:%s\t%s\t%s\t%s" %(proxy[0],proxy[1],proxy[2],proxy[3],proxy[4])
-#     fileBefore.write("%s:%s\t%s\t%s\t%s\n"%(proxy[0],proxy[1],proxy[2],proxy[3],proxy[4]))
-# fileBefore.close()
-
-
-# #开启20个线程负责校验，将抓取到的代理分成20份，每个线程校验一份
-# for i in range(20):
-#     t = ProxyCheck(rawProxyList[((len(rawProxyList)+19)/20) * i:((len(rawProxyList)+19)/20) * (i+1)])
-#     checkThreads.append(t)
-
-# for i in range(len(checkThreads)):
-#     checkThreads[i].start()
-
-# for i in range(len(checkThreads)):
-#     checkThreads[i].join()
-
-# print '.'*10+"总共有%s个代理通过校验" %len(checkedProxyList) +'.'*10
-
-# #持久化验证后的数据
-# fileAfter = open(fileAfterPath,'w+')
-# for proxy in sorted(checkedProxyList,cmp=lambda x,y:cmp(x[4],y[4])):
-#     print "checked proxy is: %s:%s\t%s\t%s\t%s" %(proxy[0],proxy[1],proxy[2],proxy[3],proxy[4])
-#     fileAfter.write("%s:%s\t%s\t%s\t%s\n"%(proxy[0],proxy[1],proxy[2],proxy[3],proxy[4]))
-# fileAfter.close()
-

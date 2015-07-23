@@ -34,13 +34,14 @@
 使用方法如下：
 	python grapCityIp
 将会保存"proxy_list_before"与"proxy_list_after"两个省份与城市的代理IP列表，其中proxy_list_after是经过验证的
-这个列表每一个小时/或者每天 维护一次
+这个列表每一个小时更新一次
 
 使用windows/linux自动计划任务，来每隔一小时执行一次上述命令
-####4. 使用Python—bottle编写GET API，将所有内容综合起来，并返回Json数据
-api_1: screenshot 通过省份得到固定网页的截图 输入：url=http://www.baidu.com&province=beijing&city="北京"&useragent=pcChrome&username=novaqa&token=123456
 
-	http://localhost:8083/api/v1/screenshot?url=http://www.baidu.com&province=beijing&city="北京"&useragent=pcChrome&username=novaqa&token=123456
+####4. 使用Python—bottle编写GET API，将所有内容综合起来，并返回Json数据
+api_1: screenshot 通过省份得到固定网页的截图 输入：url=http://www.baidu.com&province=beijing&city=北京&useragent=pcChrome&username=novaqa&token=123456
+
+	http://localhost:8083/v1/screenshot?url=http://www.baidu.com&province=beijing&city=北京&useragent=pcChrome&username=novaqa&token=123456
 
 return Json:
 
@@ -48,11 +49,9 @@ return Json:
 	  "screenshot_url":"http://localhost:8083/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
 	}
 
-api_1: getIp 通过省份得到对应的代理IP
+api_2: getCityIp 通过省份得到对应的代理IP
 
-api_1: getCityIp 通过省份得到固定网页的截图 输入：province=beijing&city="北京"&username=novaqa&token=123456
-
-	http://localhost:8083/api/v1/getCityIp?province=beijing&city="北京"&useragent=pcChrome&username=novaqa&token=123456
+	http://localhost:8083/v1/getCityIp?province=beijing&city=北京&username=novaqa&token=123456
 
 return Json:
 
@@ -61,4 +60,6 @@ return Json:
 	    "proxyIp":"220.181.143.14:9999"
 	}
 
-####5. 
+####5. 部署到windows/Linux主机上
+
+目前部署到我的windows主机上，使用了nginx代理

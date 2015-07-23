@@ -19,7 +19,7 @@ var userAgentType;
 
 if (system.args.length < 3) {
     console.log('Usage: phantomjs screenshot.js url outPutImg userAgentType');
-    phantom.exit();
+    phantom.exit(1);
 } else {
     // system.args[0] 为此JS本身
     url = system.args[1];
@@ -41,7 +41,7 @@ if (system.args.length < 3) {
         if (status != "success") 
         {
             console.log('FAIL to load the address');
-            phantom.exit();
+            phantom.exit(1);
         }
         
         page.evaluate(function()

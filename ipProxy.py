@@ -1,15 +1,16 @@
 # -*- coding:  utf-8 -*-
-#
+#!/usr/bin/python
 # author: wangxiaogang02@baidu.com
 
-import io, sys, time, re, os
+import io
+import sys
+import time
+import re
+import os
 import _winreg
 import datetime
 
-
 def getIpFromRegion(region):
-    print("hi " + region)
-    print(type(region))
     if (region == '') or (region == 'shanghai') or ("上海" in region):
         print("region is shanghai")
         return '0'
@@ -18,11 +19,12 @@ def getIpFromRegion(region):
             TIME_FORMAT = '%Y%m%d_%H'
             currentHour = datetime.datetime.now()
             lastHour = currentHour - datetime.timedelta(hours = 1)
-            print(currentHour.strftime(TIME_FORMAT))
-            fileAfterPath = "proxyList/proxyListAfter." + currentHour.strftime(TIME_FORMAT)
+            fileAfterPath = "proxyList/proxyListAfter." \
+                    + currentHour.strftime(TIME_FORMAT)
             if not os.path.exists(fileAfterPath):
                 print("Use last hour proxy list")
-                fileAfterPath = "proxyList/proxyListAfter." + lastHour.strftime(TIME_FORMAT)
+                fileAfterPath = "proxyList/proxyListAfter." \
+                        + lastHour.strftime(TIME_FORMAT)
             
             readFile = open(fileAfterPath,"r")
             
@@ -32,7 +34,6 @@ def getIpFromRegion(region):
                     readFile.close()
                     print(lineArray[0])
                     return lineArray[0]
-            readFile.close()
             return 'IpNotFonud'
         except Exception as e:
             print("ERROR: " + str(e.args))
