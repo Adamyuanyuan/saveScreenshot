@@ -1,6 +1,11 @@
 # -*- coding:  utf-8 -*-
 #!/usr/bin/python
-# author: wangxiaogang02@baidu.com
+"""
+实现从网站抓取代理网站的IP并且验证其可靠性的工具，最后将结果保存到文件中.
+
+Authors: wangxiaogang02(wangxiaogang02@baidu.com)
+Date:    2015/07/27 17:23:06
+"""
 
 import urllib2
 import re
@@ -8,7 +13,6 @@ import threading
 import time
 import datetime
 import sys
-
 
 rawProxyList = []
 checkedProxyList = []
@@ -22,7 +26,7 @@ print targets
 
 #正则
 p = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,4})</td>.+?<td>(.{4,5})</td>''',re.DOTALL)
-p_all = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
+ P_ALL = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
 p_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?hebei\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
 p_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?beijing\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
 p_anhui = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?anhui\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
@@ -95,7 +99,7 @@ def main():
 
     #对每个目标网站开启一个线程负责抓取代理
     for i in range(len(targets)):
-        t_beijing = ProxyGet(targets[i],p_all)
+        t_beijing = ProxyGet(targets[i], P_ALL)
         getThreads.append(t_beijing)
 
     for i in range(len(getThreads)):
@@ -104,7 +108,7 @@ def main():
     for i in range(len(getThreads)):
         getThreads[i].join()
 
-    print '.'*10+"总共抓取了%s个代理" %len(rawProxyList) +'.'*10
+    print '.' * 10 + "总共抓取了%s个代理" % len(rawProxyList) + '.' * 10
 
     TIME_FORMAT = '%Y%m%d_%H'
     # today = datetime.date.today()

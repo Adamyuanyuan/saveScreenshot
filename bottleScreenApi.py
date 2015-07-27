@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 # todo: create gl.py to set global variable and import it
-LOCAL_IP_ADDRESS = "http://172.18.27.3/"
+LOCAL_IP_ADDRESS = "localhost/"
 
 def check_login(username, token):
     # todo: create a map<k,v> to contain them
@@ -26,6 +26,7 @@ def genErrorJsonString(errorMassage):
 
 @route('/v1/screenshot')
 def screenshot():
+    print("screenshot start")
     username = request.query.username
     token = request.query.token
     if not check_login(username, token):
@@ -113,5 +114,6 @@ def getCityIp():
     jsonStringToReturn = "{ 'region' : '" + region + "', 'ip' : '" + ip + "'}"
     return jsonStringToReturn 
 
-run(server='waitress', host='localhost', port=8083, debug=True, reload=True)
+# run(server='waitress', host='localhost', port=8083, debug=True, reload=True)
 # run(server='tornado',host='localhost', port=8083)
+run(host='localhost', port=8083)
