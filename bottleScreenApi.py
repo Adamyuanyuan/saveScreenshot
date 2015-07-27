@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 # todo: create gl.py to set global variable and import it
-LOCAL_IP_ADDRESS = "localhost/"
+LOCAL_IP_ADDRESS = "http://172.18.12.191/"
 
 def check_login(username, token):
     # todo: create a map<k,v> to contain them

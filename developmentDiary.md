@@ -41,17 +41,17 @@
 ####4. 使用Python—bottle编写GET API，将所有内容综合起来，并返回Json数据
 api_1: screenshot 通过省份得到固定网页的截图 输入：url=http://www.baidu.com&province=beijing&city=北京&useragent=pcChrome&username=novaqa&token=123456
 
-	http://localhost:8083/v1/screenshot?url=http://www.baidu.com&province=beijing&city=北京&useragent=pcChrome&username=novaqa&token=123456
+	http://http://172.18.12.191/v1/screenshot?url=http://www.baidu.com&province=beijing&city=北京&useragent=pcChrome&username=novaqa&token=123456
 
 return Json:
 
 	{
-	  "screenshot_url":"http://localhost:8083/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
+	  "screenshot_url":"http://http://172.18.12.191//screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
 	}
 
 api_2: getCityIp 通过省份得到对应的代理IP
 
-	http://localhost:8083/v1/getCityIp?province=beijing&city=北京&username=novaqa&token=123456
+	http://http://172.18.12.191/v1/getCityIp?province=beijing&city=北京&username=novaqa&token=123456
 
 return Json:
 
