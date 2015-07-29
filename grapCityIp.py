@@ -19,9 +19,8 @@ checkedProxyList = []
 
 #抓取代理网站
 targets=[]
-for i in range(1,6):
-    target = r"http://www.xici.net.co/nt/%d" % i
-    targets.append(target)
+target = r"http://www.xici.net.co/nt/"
+targets.append(target)
 print targets
 
 #正则
@@ -99,8 +98,9 @@ def main():
 
     #对每个目标网站开启一个线程负责抓取代理
     for i in range(len(targets)):
-        t_beijing = ProxyGet(targets[i], P_ALL)
-        getThreads.append(t_beijing)
+        p_city = P_ALL
+        t_city = ProxyGet(targets[i], p_city)
+        getThreads.append(t_city)
 
     for i in range(len(getThreads)):
         getThreads[i].start()

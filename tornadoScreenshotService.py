@@ -14,12 +14,10 @@ import datetime
 import os
 import subprocess
 import sys
+import config
 
 # todo: create gl.py to set global variable and import it
 # LOCAL_IP_ADDRESS = "http://172.18.12.191/"
-
-LOCAL_IP_ADDRESS = "http://localhost/"
-REGION = "shanghai"
 
 define("port", default=8888, help="run on the given port", type=int)
 tornado.netutil.Resolver.configure('tornado.netutil.ThreadedResolver', num_threads=10)
@@ -82,7 +80,7 @@ class Screenshot(tornado.web.RequestHandler):
 
             outPutImg = url.replace(".", "").replace("http://www","")\
                      .replace("/","").replace(":","") +\
-                     "_" + REGION + "_" + useragent + "_" + currentTime + ".png"
+                     "_" + config.REGION + "_" + useragent + "_" + currentTime + ".png"
             # print(outPutImg)
             savedImg = "./snapshot/" + outPutImg
             screenshotScript = "phantomjs screenshot.js " + url + " " \
@@ -107,7 +105,7 @@ class Screenshot(tornado.web.RequestHandler):
             # os.popen(disableProxyScript)
             pass
 
-        outPutImgUrl = LOCAL_IP_ADDRESS + outPutImg
+        outPutImgUrl = config.LOCAL_IP_ADDRESS + outPutImg
         print(outPutImgUrl)
 
         jsonStringToReturn = "<body>{ 'screenshotUrl' : '<a href=\"" + outPutImgUrl + "\">" + outPutImgUrl + "</a>'}</body>"

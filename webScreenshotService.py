@@ -8,12 +8,9 @@ import datetime
 import os
 import subprocess
 import sys
-
+import config
 # todo: create gl.py to set global variable and import it
 # LOCAL_IP_ADDRESS = "http://172.18.12.191/"
-
-LOCAL_IP_ADDRESS = "http://localhost/"
-REGION = "shanghai"
 
 urls = (
     '/Screenshot', 'Screenshot'
@@ -35,7 +32,7 @@ class Screenshot:
 
     def GET(self):
         print("screenshot start")
-        user_data = web.input(username = "Jack", token = "123456", url = "", useragent = "")
+        user_data = web.input(username = "novaqa", token = "123456", url = "", useragent = "")
         print(user_data)
         username = user_data.username
         token = user_data.token
@@ -57,7 +54,7 @@ class Screenshot:
 
             outPutImg = url.replace(".", "").replace("http://www","")\
                      .replace("/","").replace(":","") +\
-                     "_" + REGION + "_" + useragent + "_" + currentTime + ".png"
+                     "_" + config.REGION + "_" + useragent + "_" + currentTime + ".png"
             # print(outPutImg)
             savedImg = "./snapshot/" + outPutImg
             screenshotScript = "phantomjs screenshot.js " + url + " " \
@@ -82,7 +79,7 @@ class Screenshot:
             # os.popen(disableProxyScript)
             pass
 
-        outPutImgUrl = LOCAL_IP_ADDRESS + outPutImg
+        outPutImgUrl = config.LOCAL_IP_ADDRESS + outPutImg
         print(outPutImgUrl)
 
         jsonStringToReturn = "<body>{ 'screenshotUrl' : '<a href=\"" + outPutImgUrl + "\">" + outPutImgUrl + "</a>'}</body>"
