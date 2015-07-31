@@ -21,6 +21,7 @@ readFile2 = open(dataFilePath, "r")
 
 for eachLine in readFile2:
     currentNum += 1
+    print(str(currentNum))
     lineArray = eachLine.split('\t')
     shotedPngName = lineArray[2];
     flashUrl = lineArray[3].rstrip('\n');
@@ -33,30 +34,3 @@ for eachLine in readFile2:
     print(screenResult)
 
 print("================OK All Done!")
-
-
-class RunScript(threading.Thread):
-    def __init__(self,target,p):
-        threading.Thread.__init__(self)
-        self.target = target
-        self.p = p
-
-    def getProxy(self):
-        print "目标网站：" + self.target
-        req = urllib2.urlopen(self.target)
-        result = req.read()
-        matchs = self.p.findall(result)
-        for row in matchs:
-            ip = row[0]
-            port = row[1]
-            # 英文省份名称
-            province_en = row[2]
-            # 中文所在城市名称
-            city_cn = row[3]
-            speed = row[4]
-            proxy = [ip,port,province_en,city_cn,speed]
-            # print(proxy)
-            rawProxyList.append(proxy)
-
-    def run(self):
-        self.getProxy()

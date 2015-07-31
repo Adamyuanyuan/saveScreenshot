@@ -2,11 +2,13 @@
 #--*-- coding:utf-8 --*--
 # python screenShotFlashFromFile.py 
 import os
+import sys
+
 
 class SplitFiles():
     """按行分割文件"""
 
-    def __init__(self, file_name, line_count=5000):
+    def __init__(self, file_name, line_count=8500):
         """初始化要分割的源文件名和分割后的文件行数"""
         self.file_name = file_name
         self.line_count = line_count
@@ -42,7 +44,7 @@ class SplitFiles():
         # # if not os.path.exists(temp_path) : # 如果临时目录不存在则创建
         # #     os.makedirs(temp_path)
         # part_file_name += os.sep + "temp_file_" + str(part_num) + ".part"
-        part_file_name = "temp_file_" + str(part_num)
+        part_file_name = "temp_path730/temp_file_" + str(part_num)
         return part_file_name
 
     def write_file(self, part_num, *line_content):
@@ -57,5 +59,6 @@ class SplitFiles():
 
 
 if __name__ == "__main__":
-    sf = SplitFiles(r"D:\baidu\flashshot\textDisuKuada")
+    dataFilePath = sys.argv[1]
+    sf = SplitFiles(dataFilePath)
     sf.split_file()

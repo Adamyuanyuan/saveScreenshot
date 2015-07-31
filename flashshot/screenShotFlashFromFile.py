@@ -15,7 +15,7 @@ disableProxyScript = "python ipProxy.py 0"
 enableProxyScript = "python ipProxy.py 117.177.243.43:86"
 
 currentNum = 0
-writeFileName = "fileSrc_" + dataFilePath
+writeFileName = dataFilePath + "_fileUrl"
 writeFile = file(writeFileName, "w")
 
 for eachLine in readFile:
