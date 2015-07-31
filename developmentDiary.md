@@ -63,6 +63,8 @@
  url : 网址
  outPutImg : 保存图片名称(与路径)
  userAgentType : 目前支持: [pc_chrome|pc_firefox|pc_ie8|android|iphone]
+遇到了大问题：这个工具不支持flash，比如如下url截图就会有问题：
+http://localhost:8083/v1/screenshot?url=http://www.dhs.state.il.us/accessibility/tests/flash/video.html&city=%E4%B8%8A%E6%B5%B7&useragent=pcChrome&username=novaqa&token=123456
 
 ####2. 脚本自动化设置代理IP
 目前已经解决了自动化设置代理中设置不能自动刷新的问题，使用方法如下：
@@ -93,7 +95,7 @@ api_1: screenshot 通过省份得到固定网页的截图 输入：url=http://ww
 return Json:
 
 	{
-	  "screenshot_url":"http://http://172.18.12.191//screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
+	  "screenshot_url":"http://http://172.18.12.191/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
 	}
 
 api_2: getCityIp 通过省份得到对应的代理IP

@@ -19,11 +19,11 @@ def getIpFromRegion(region):
             TIME_FORMAT = '%Y%m%d_%H'
             currentHour = datetime.datetime.now()
             lastHour = currentHour - datetime.timedelta(hours = 1)
-            fileAfterPath = "proxyList/proxyListAfter." \
+            fileAfterPath = "proxyList/all/proxyListAfter." \
                     + currentHour.strftime(TIME_FORMAT)
             if not os.path.exists(fileAfterPath):
                 print("Use last hour proxy list")
-                fileAfterPath = "proxyList/proxyListAfter." \
+                fileAfterPath = "proxyList/all/proxyListAfter." \
                         + lastHour.strftime(TIME_FORMAT)
             
             readFile = open(fileAfterPath,"r")

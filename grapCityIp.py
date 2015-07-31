@@ -19,7 +19,7 @@ checkedProxyList = []
 
 #抓取代理网站
 targets=[]
-target = r"http://www.xici.net.co/nt/"
+target = r"http://www.xici.net.co/nn/"
 targets.append(target)
 print targets
 
