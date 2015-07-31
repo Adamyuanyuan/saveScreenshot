@@ -26,7 +26,7 @@ for eachLine in readFile2:
     shotedPngName = lineArray[2];
     flashUrl = lineArray[3].rstrip('\n');
 
-    screenshotScript = "python saveScreenshot.py \"" + flashUrl + "\" flashImages/" + shotedPngName
+    screenshotScript = "python saveScreenshot.py \"" + flashUrl + "\" flashImages730/" + shotedPngName
     # print(screenshotScript)
 
     screenResult = subprocess.call(screenshotScript.encode(\
