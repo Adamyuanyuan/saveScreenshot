@@ -40,8 +40,7 @@ def capture(url, save_fn):
     # for i in xrange(30):
     #     if "scroll-done" in browser.title:
     #         break
-            
-    time.sleep(3)
+    time.sleep(4)
 
     browser.save_screenshot(save_fn)
     browser.close()

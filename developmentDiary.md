@@ -74,7 +74,8 @@ http://localhost:8083/v1/screenshot?url=http://www.dhs.state.il.us/accessibility
 ####3. 抓取代理IP信息
 ######抓取不同地区的代理IP信息
 通过Python网页爬虫抓取不同地区的代理IP信息并保存成属性文件的形式，用来设置浏览器的代理IP
-1.  使用5个线程抓取xici网站的5个国内代理IP页面，然后通过网站上的连接时间进行排序,并保存至proxy_list_before.%Y%m%d_%H；
+
+1. 使用5个线程抓取xici网站的5个国内代理IP页面，然后通过网站上的连接时间进行排序,并保存至proxy_list_before.%Y%m%d_%H；
 2. 使用20个线程通过百度进行验证其有效性，将有效的代理IP按照实际测出的连接时间排序，并保存至proxy_list_after.%Y%m%d_%H
 
 使用方法如下：
@@ -112,6 +113,7 @@ return Json:
 ####5. 部署到windows/Linux主机上
 
 目前部署到我的windows主机上，后又部署到了一个台式机上，现在将部署方法总结一下，因为以后还要继续部署：
+
 1. 安装Python27，添加"C:\Python27" 与 "C:\Python27\Scripts" 到path系统变量
 2. 安装Python的pip，为以后添加各种程序方便而使用，下载pip安装程序并解压,因为安装到了
     2.1 在以下地址下载最新的PIP安装文件：http://pypi.python.org/pypi/pip#downloads
@@ -126,3 +128,15 @@ return Json:
     pip install web.py ： 在研读其核心模块[源码](http://diaocow.iteye.com/blog/1922760)，修改了web.py的部分源码之后，具有设定线程池大小的功能, 被修改的源码文件在git上，直接覆盖(C:\Python27\Lib\site-packages\web)即可
 5. 设置windows定时，[请看链接教程](http://blog.csdn.net/liqfyiyi/article/details/8812971)
 6. 配置nginx代理，使能够查看截图，这个简单，直接git下载最新代码即可
+
+####关于flash/*.swf结尾的文件的截图
+由于phantomjs对于flash支持得不够好，所以这里目前优先使用selenium完成凯仁给我的5万个flash截图的任务
+
+1. 安装selenium: pip install -U selenium
+2. 安装chromedriver，并且放在chrome.exe通目录下
+3. 在fileSrc_temp_file_%d 文件的第 10, 100, 1000行分别插入违规flash进行对比
+	000000010	1	flash_000000010_1.png	http://ubmcmm.baidustatic.com/media/v1/0f0005PfIe3eITOWMDdeDs.swf
+	0000000100	1	flash_0000000100_1.png	http://ubmcmm.baidustatic.com/media/v1/0f0005PfIe3eITOWMDdeDs.swf
+	。。。
+	
+4. 执行 python screenShotFlashFromFile2.py fileSrc_temp_file_1 即可
