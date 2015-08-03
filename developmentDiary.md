@@ -8,11 +8,10 @@
 已写好，直接输出地域和平台信息
 2. 制作自动跨地域截图工具，为测试人员提供一个http的GET的API接口，流程如下
 输入：URL+地域+useragent
-
-2.1 自动打开Chrome（模拟）
-2.2 设置发给浏览器的参数 useragent 某个地域的IP(这里需要实现并维护一个自动每个地域与代理IP的对应表，定时从一个网页上抓取不同地域的IP信息工具)
-2.3 自动向网页输入URL，并且自动访问
-2.4 将访问的网页自动截图，并保存到本地，并返回截图url，关闭chrome
+- 2.1 自动打开Chrome（模拟）
+- 2.2 设置发给浏览器的参数 useragent 某个地域的IP(这里需要实现并维护一个自动每个地域与代理IP的对应表，定时从一个网页上抓取不同地域的IP信息工具)
+- 2.3 自动向网页输入URL，并且自动访问
+- 2.4 将访问的网页自动截图，并保存到本地，并返回截图url，关闭chrome
 
 ###中期总结
 ####项目背景：
@@ -134,6 +133,10 @@ return Json:
 
 1. 安装selenium: pip install -U selenium
 2. 安装chromedriver，并且放在chrome.exe通目录下
+
+在使用代理进行截图的时候遇到了一个bug，就是chromedriver.exe启动之后quit()抛出异常，解决方案如下：
+[stackoverflow](http://stackoverflow.com/questions/22018126/selenium-chromedriver-http-407-on-driver-quit). 即设置代理使其在本地可以代理，然后将127.0.0.1加入
+
 3. 在fileSrc_temp_file_%d 文件的第 10, 100, 1000行分别插入违规flash进行对比
 	000000010	1	flash_000000010_1.png	http://ubmcmm.baidustatic.com/media/v1/0f0005PfIe3eITOWMDdeDs.swf
 	0000000100	1	flash_0000000100_1.png	http://ubmcmm.baidustatic.com/media/v1/0f0005PfIe3eITOWMDdeDs.swf
