@@ -135,7 +135,7 @@ return Json:
 2. 安装chromedriver，并且放在chrome.exe通目录下
 
 在使用代理进行截图的时候遇到了一个bug，就是chromedriver.exe启动之后quit()抛出异常，解决方案如下：
-[stackoverflow](http://stackoverflow.com/questions/22018126/selenium-chromedriver-http-407-on-driver-quit). 即设置代理使其在本地可以代理，然后将127.0.0.1加入
+[stackoverflow](http://stackoverflow.com/questions/22018126/selenium-chromedriver-http-407-on-driver-quit). 即 I fixed this problem by opening Internet Options > Connections > LAN settings > Advanced and inserting 127.0.0.1 into the Exceptions box.
 
 3. 在fileSrc_temp_file_%d 文件的第 10, 100, 1000行分别插入违规flash进行对比
 	000000010	1	flash_000000010_1.png	http://ubmcmm.baidustatic.com/media/v1/0f0005PfIe3eITOWMDdeDs.swf
