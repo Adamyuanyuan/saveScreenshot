@@ -19,11 +19,12 @@ currentNum = 0
 # dataFilePath = sys.argv[1]
 dataFilePath = "textdisukuada_0730_selected23_fileUrl"
 readFile2 = open(dataFilePath, "r")
+cityName = "beijing"
 # subprocess.call(enableProxyScript)
 
 TIME_FORMAT = '%Y%m%d_%H%M%S'
 currentTime = datetime.datetime.now().strftime(TIME_FORMAT)
-dirName = "sichuan_" + currentTime + "_flashImages730"
+dirName = cityName + "_" + currentTime + "_flashImages730"
 
 os.mkdir(dirName)
 
