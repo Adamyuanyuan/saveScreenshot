@@ -21,6 +21,8 @@ writeFile = file(writeFileName, "w")
 for eachLine in readFile:
     currentNum += 1
     lineArray = eachLine.split('\t')
+    ad_id = lineArray[1]
+    user_id = lineArray[2]
     ubmcid = lineArray[20]
     versionid = lineArray[21]
     shotedPngName = "flash_" + ubmcid + "_" + versionid + ".png";
@@ -45,7 +47,7 @@ for eachLine in readFile:
         flashUrl = flashUrls[0].rstrip('\t')
         # print(flashUrl)
 
-        writeFile.write("%s\t%s\t%s\t%s\n" % (ubmcid, versionid, shotedPngName, flashUrl))
+        writeFile.write("%s\t%s\t%s\t%s\n" % (ad_id, user_id, shotedPngName, flashUrl))
     # subprocess.call(enableProxyScript)
 
     # screenshotScript = "python saveScreenshot.py \"" + flashUrl + "\" flashImages/" + shotedPngName

@@ -14,7 +14,9 @@ import time
 import datetime
 import sys
 import os
+
 import config
+import ipProxy
 
 rawProxyList = []
 checkedProxyList = []
@@ -239,5 +241,7 @@ def main():
         fileAfter.write("%s\t%s\t%s\t%s\n"%(proxy[0],proxy[1],proxy[2],proxy[4]))
     fileAfter.close()
 
+
 if __name__ == "__main__":
         main()
+        # currentIP = ipProxy.getIpFromRegion()
