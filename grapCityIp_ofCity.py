@@ -91,7 +91,7 @@ def getProxyFromFile(region):
         fileAfterPath = "proxyList/" + region + "/proxyListAfter." \
                 + lastHour.strftime(TIME_FORMAT)
         if not os.path.isdir("proxyList/" + region):
-            os.mkdir("proxyList/" + region)
+            os.makedirs("proxyList/" + region)
         if not os.path.exists(fileAfterPath):
             print("Use before hour proxy list")
             fileAfterPath = "proxyList/" + region + "/proxyListAfter." \
@@ -207,8 +207,8 @@ def main():
     # today = datetime.date.today()
 
     if not os.path.isdir("proxyList/" + config.REGION):
-        print "mkdir: proxyList/" + config.REGION
-        os.mkdir("proxyList/" + config.REGION)
+        print "makedirs: proxyList/" + config.REGION
+        os.makedirs("proxyList/" + config.REGION)
 
     # 此处windows处路径为\,若转为Linux下服务，可能需要修改
     fileBeforePath = "proxyList/" + config.REGION + "/proxyListRaw." + time.strftime(TIME_FORMAT)
