@@ -125,6 +125,7 @@ return Json:
     pip install bottle ：具有单线程(直接启动)和多线程并发执行(使用waitress(pip安装)作为服务器)的模式，单线程的具有根据不同的城市修改代理IP的功能
     pip install tornado ：使用非阻塞的异步来实现，目前是单线程
     pip install web.py ： 在研读其核心模块[源码](http://diaocow.iteye.com/blog/1922760)，修改了web.py的部分源码之后，具有设定线程池大小的功能, 被修改的源码文件在git上，直接覆盖(C:\Python27\Lib\site-packages\web)即可
+    由于是启动的是多线程，故增加了logging功能，对不同的进程有一个进程号(目前是自增，比UUID有顺序性)
 5. 设置windows定时，[请看链接教程](http://blog.csdn.net/liqfyiyi/article/details/8812971)
 6. 配置nginx代理，使能够查看截图，这个简单，直接git下载最新代码即可
 
@@ -160,5 +161,5 @@ api_1: screenshot 通过省份得到固定网页的截图 输入：isFlash=true&
 return Json:
 
 	{
-	  "screenshot_url":"http://http://172.18.12.191/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
+	  'screenshotUrl':'http://localhost/flashSnapshot/flashSnapshot_all_20150806/ubmcmmbaidustaticcommediav10f0005TkYRYWPBHoEyanj0swf_all_pcChrome_20150806_145645.png'
 	}
