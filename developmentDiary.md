@@ -132,7 +132,7 @@ return Json:
 由于phantomjs对于flash支持得不够好，所以这里目前优先使用selenium完成凯仁给我的5万个flash截图的任务
 
 1. 安装selenium: pip install -U selenium
-2. 安装chromedriver，并且放在chrome.exe通目录下
+2. 安装chromedriver，并且放在chrome.exe通目录下，并设置chrome路径在path中（设置环境变量）
 
 在使用代理进行截图的时候遇到了一个bug，就是chromedriver.exe启动之后quit()抛出异常，解决方案如下：
 [stackoverflow](http://stackoverflow.com/questions/22018126/selenium-chromedriver-http-407-on-driver-quit). 即 I fixed this problem by opening Internet Options > Connections > LAN settings > Advanced and inserting 127.0.0.1 into the Exceptions box.

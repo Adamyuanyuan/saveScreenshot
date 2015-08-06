@@ -67,14 +67,14 @@ class WebScreenshot:
             
             isFlash = user_data.isFlash
             if isFlash == "false":
-                savedDir = "webSnapshot_" + config.REGION + "_" + currentDate
+                savedDir = "webSnapshot/webSnapshot_" + config.REGION + "_" + currentDate
                 makePath(savedDir)
                 savedImg = savedDir + "/"+ outPutImg
                 screenshotScript = "phantomjs screenshot.js \"" + url + "\" \"" \
                         + savedImg + "\" " + useragent;
                 print(screenshotScript)
             else:
-                savedDir = "flashSnapshot_" + config.REGION + "_" + currentDate
+                savedDir = "flashSnapshot/flashSnapshot_" + config.REGION + "_" + currentDate
                 makePath(savedDir)
                 savedImg = savedDir + "/"+ outPutImg
                 screenshotScript = "python saveCityScreenshot.py \"" \
