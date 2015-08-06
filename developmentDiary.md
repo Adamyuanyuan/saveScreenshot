@@ -143,3 +143,22 @@ return Json:
 	。。。
 	
 4. 执行 python screenShotFlashFromFile2.py fileSrc_temp_file_1 即可
+
+#### 使用Python—web.py编写GET API，将所有内容综合起来，并返回Json数据
+api_1: screenshot 通过省份得到固定网页的截图 输入：isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456
+
+参数详解:
+
+- isFlase=[true|false] : 是否截取静态flash，默认为false,只有参数为true的时候才有效
+- url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26 : 要截图的网页或者静态文件的url，如果url中有特殊字符，则需要转义，我会随后写个转义的小脚本给大家使用
+- useragent=pcChrome，useragent设置，只对网页截图(isFlash=false)有效，目前支持: [pc_chrome|pc_firefox|pc_ie8|android|iphone]
+- username=novaqa&token=123456 固定的用户名和密码，为与网盟其它API一致
+
+
+	http://localhost:8080/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456
+
+return Json:
+
+	{
+	  "screenshot_url":"http://http://172.18.12.191/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
+	}
