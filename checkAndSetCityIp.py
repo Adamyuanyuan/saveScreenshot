@@ -90,7 +90,7 @@ def main():
     ip2 = config.get("info", "ip2")
     print ip1
     if checkProxy(ip1):
-        # ipProxy.setProxy(ip1)
+        ipProxy.setProxy(ip1)
         if checkProxy(ip2):
             print("ip1 and ip2 ok")
             return

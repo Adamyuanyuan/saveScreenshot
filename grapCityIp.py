@@ -63,7 +63,8 @@ if config.REGION == "all":
         HDL_target = HDL_cityUrlMap["all"] + str(i)
         HDL_targets.append(HDL_target)
 else:
-    for i in range(1,5):
+    # 如果代理的数量太多，则会被此网站禁止，目前有一个页面的IP就够用了
+    for i in range(1,2):
         HDL_target = HDL_cityUrlMap[config.REGION] + str(i)
         HDL_targets.append(HDL_target)
 print HDL_targets
@@ -185,12 +186,12 @@ def main():
     checkThreads=[]
     getProxyFromFile(config.REGION)
 
-    # #对西祠网站开启一个线程负责抓取代理
-    # for i in range(len(XC_targets)):
-    #     p_city = XC_cityCompileMap[config.REGION]
-    #     print p_city
-    #     t_city = ProxyGet(XC_targets[i], p_city)
-    #     getThreads.append(t_city)
+    #对西祠网站开启一个线程负责抓取代理
+    for i in range(len(XC_targets)):
+        p_city = XC_cityCompileMap[config.REGION]
+        print p_city
+        t_city = ProxyGet(XC_targets[i], p_city)
+        getThreads.append(t_city)
 
     # 对好代理网站进行目标抓取
     for i in range(len(HDL_targets)):
