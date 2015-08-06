@@ -34,7 +34,7 @@ XC_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td
 # XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
 XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
 # XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_anhui = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(anhui)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
+XC_shandong = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(shandong)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
 XC_shanghai = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(shanghai)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
 XC_jiangxi = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(jiangxi)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
 XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(sichuan)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
@@ -42,7 +42,7 @@ XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</
 XC_cityCompileMap["all"] = XC_all
 XC_cityCompileMap["beijing"] = XC_beijing
 XC_cityCompileMap["hebei"] = XC_hebei
-XC_cityCompileMap["anhui"] = XC_anhui
+XC_cityCompileMap["shandong"] = XC_shandong
 XC_cityCompileMap["shanghai"] = XC_shanghai
 XC_cityCompileMap["jiangxi"] = XC_jiangxi
 XC_cityCompileMap["sichuan"] = XC_sichuan
@@ -53,6 +53,8 @@ HDL_cityUrlMap["all"] = r"http://www.haodailiip.com/guonei/"
 HDL_cityUrlMap["beijing"] = r"http://www.haodailiip.com/guonei/110000/"
 HDL_cityUrlMap["jiangxi"] = r"http://www.haodailiip.com/guonei/360000/"
 HDL_cityUrlMap["sichuan"] = r"http://www.haodailiip.com/guonei/510000/"
+HDL_cityUrlMap["hebei"] = r"http://www.haodailiip.com/guonei/130000/"
+HDL_cityUrlMap["shandong"] = r"http://www.haodailiip.com/guonei/370000/"
 
 HDL_targets=[]
 # 如果是要抓取所有城市的IP，则需要开多个线程抓取多个页面的数据，如果一个IP一个页面的IP够
@@ -76,6 +78,8 @@ HDL_cityCompileMap["all"] = HDL_all
 HDL_cityCompileMap["beijing"] = HDL_beijing
 HDL_cityCompileMap["jiangxi"] = HDL_beijing
 HDL_cityCompileMap["sichuan"] = HDL_beijing
+HDL_cityCompileMap["hebei"] = HDL_beijing
+HDL_cityCompileMap["shandong"] = HDL_beijing
 
 
 # 读取以前保存的城市的IP供可用性检查
