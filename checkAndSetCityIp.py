@@ -26,6 +26,25 @@ import sys
 
 CONFIGFILE="cityIp.cfg"
 
+
+def makePath(pathDir):
+    if not os.path.exists(pathDir):
+        print(pathDir + "path not exists and create it")
+        os.makedirs(pathDir)
+
+# 为server配置log
+def initLog():
+    import logging
+    logger = logging.getLogger()
+    DATE_FORMAT = '%Y%m%d'
+    currentDate = datetime.datetime.now().strftime(DATE_FORMAT)
+    makePath("logs/checkAndSetIpLog")
+    logFileName = "logs/checkAndSetIpLog/checkAndSetIp_" + currentDate + ".log"
+    hdlr = logging.basicConfig(filename=logFileName,level=logging.NOTSET,format='%(asctime)s %(levelname)s: %(message)s')
+    return logger
+
+logger = initLog()
+
 def checkProxy(proxy):
     testUrl = "http://www.baidu.com/"
     testStr = "030173"
@@ -42,16 +61,17 @@ def checkProxy(proxy):
         pos = result.find(testStr)
 
         if pos > 1:
-            print("ip ok: " + proxy)
+            logger.info("ip ok: " + proxy)
             return True
         else:
-            print("ip not use: " + proxy)
+            logger.info("ip not use: " + proxy)
             return False
     except Exception,e:
         return False
 
 def getIpfromProxyList(exceptIp):
-    print("getIpfromProxyList start")
+    logger.info("getIpfromProxyList start")
+    logger.info("getIpfromProxyList start")
 
     TIME_FORMAT = '%Y%m%d_%H'
     currentHour = datetime.datetime.now()
@@ -59,6 +79,7 @@ def getIpfromProxyList(exceptIp):
     fileAfterPath = "proxyList/" + config.REGION + "/proxyListAfter." \
             + currentHour.strftime(TIME_FORMAT)
     if not os.path.exists(fileAfterPath):
+        logger.info("Use last hour proxy list")
         print("Use last hour proxy list")
         fileAfterPath = "proxyList/" + config.REGION + "/proxyListAfter." \
                 + lastHour.strftime(TIME_FORMAT)
@@ -83,19 +104,21 @@ def getIpfromProxyList(exceptIp):
         readFile.close()
 
 def main():
+    logger.info("------------start--------------")
     config = ConfigParser.ConfigParser()
     config.read(CONFIGFILE)
 
     ip1 = config.get("info", "ip1")
     ip2 = config.get("info", "ip2")
-    print ip1
+    logger.info(ip1)
+    logger.info(ip2)
     if checkProxy(ip1):
         ipProxy.setProxy(ip1)
         if checkProxy(ip2):
-            print("ip1 and ip2 ok")
+            logger.info("ip1 and ip2 ok")
             return
         else:
-            print("ip2 need selectedIp")
+            logger.info("ip2 need selectedIp")
             # 从IP列表中找到IP不是ip1的IP并验证
             selectedIp = getIpfromProxyList(ip1)
             config.set("info", "ip2", selectedIp)
@@ -104,7 +127,7 @@ def main():
 
     else:
         if checkProxy(ip2):
-            print("ip2 --> ip1")
+            logger.info("ip2 --> ip1")
             ipProxy.setProxy(ip2)
             selectedIp = getIpfromProxyList(ip2)
             config.set("info", "ip1", ip2)
@@ -114,7 +137,7 @@ def main():
 
         # 如果两个IP都不可用，查找之后的ip仍然不可用，则驱动例行的grapCityIp.py提前执行
         else:
-            print("ip1 and ip2 all need selectedIp")
+            logger.info("ip1 and ip2 all need selectedIp")
             selectedIp1 = getIpfromProxyList("0")
             # 一直循环驱动直到找到正确IP
             loopVar = 0
@@ -130,7 +153,7 @@ def main():
                 grapCityIpScript = "python grapCityIp.py"
                 scriptResult = subprocess.call(grapCityIpScript.encode(\
                             sys.getfilesystemencoding()))
-                print(scriptResult)
+                logger.info(scriptResult)
                 selectedIp1 = getIpfromProxyList("0")
 
             ipProxy.setProxy(selectedIp1)
@@ -141,4 +164,5 @@ def main():
             return
 
 if __name__ == "__main__":
+
     main()
