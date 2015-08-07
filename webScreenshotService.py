@@ -10,7 +10,6 @@ import os
 import subprocess
 import sys
 import config
-import logging
 
 def check_login(username, token):
     # todo: create a map<k,v> to contain them
@@ -30,6 +29,7 @@ def makePath(pathDir):
 
 # 为server配置log
 def initLog():
+    import logging
     logger = logging.getLogger()
     DATE_FORMAT = '%Y%m%d'
     currentDate = datetime.datetime.now().strftime(DATE_FORMAT)
@@ -118,6 +118,7 @@ class WebScreenshot:
         except Exception as e:
             logger.error(processName + ": " + "ERROR: " + str(e.args))
             print("ERROR: " + str(e.args))
+            return genErrorJsonString(str(e.args))
         finally:
             # disableProxyScript = "python ipProxy.py 0"
             # os.popen(disableProxyScript)
