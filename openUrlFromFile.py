@@ -12,6 +12,7 @@ Date: 2015/08/07
 import urllib
 import sys
 import datetime
+import time
 
 def encodeString(urlStr):
 	return urllib.quote(urlStr)
@@ -47,9 +48,7 @@ def main():
 
 	dataFileName = sys.argv[1]
 	openUrlAndSave(dataFileName)
-	
-
-
+	print(time.strftime('%H-%M-%S'))
 
 if __name__ == "__main__":
 	main()
