@@ -3,7 +3,6 @@
 
 # 安装方式
 ##1. 准备
-
 假设这是一台新申请的windows机器，只安装了公司必要的软件
 首先，新建文件夹：“D:\baidu\saveScreenshot\”
 下载安装git
