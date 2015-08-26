@@ -29,15 +29,22 @@ print XC_targets
 
 XC_cityCompileMap = {}
 #正则
-XC_all = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(hebei)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
+XC_all = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>
+    .+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>
+    .+?<td>.+?<a href=\"/.+?/(hebei)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
 # XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
-# XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_shandong = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(shandong)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_shanghai = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(shanghai)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_jiangxi = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(jiangxi)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
-XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(sichuan)\">(.+?)</a>.+?<td>(.{4,5})</td>''',re.DOTALL)
+XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
+    .+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
+# XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_shandong = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
+    .+?(\d{2,5})</td>.+?(shandong)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_shanghai = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
+    .+?(\d{2,5})</td>.+?(shanghai)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_jiangxi = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
+    .+?(\d{2,5})</td>.+?(jiangxi)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
+XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
+    .+?(\d{2,5})</td>.+?(sichuan)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
 
 XC_cityCompileMap["all"] = XC_all
 XC_cityCompileMap["beijing"] = XC_beijing
@@ -59,20 +66,22 @@ HDL_cityUrlMap["shandong"] = r"http://www.haodailiip.com/guonei/370000/"
 HDL_targets=[]
 # 如果是要抓取所有城市的IP，则需要开多个线程抓取多个页面的数据，如果一个IP一个页面的IP够
 if config.REGION == "all":
-    for i in range(1,10):
+    for i in range(1, 10):
         HDL_target = HDL_cityUrlMap["all"] + str(i)
         HDL_targets.append(HDL_target)
 else:
     # 如果代理的数量太多，则会被此网站禁止，目前有一个页面的IP就够用了
-    for i in range(1,2):
+    for i in range(1, 2):
         HDL_target = HDL_cityUrlMap[config.REGION] + str(i)
         HDL_targets.append(HDL_target)
 print HDL_targets
 
 HDL_cityCompileMap = {}
 #正则
-HDL_all = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''',re.DOTALL)
-HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''',re.DOTALL)
+HDL_all = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?
+    </td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
+HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?
+    </td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
 
 # 它们的正则表达式是一样的
 HDL_cityCompileMap["all"] = HDL_all
@@ -83,8 +92,8 @@ HDL_cityCompileMap["hebei"] = HDL_beijing
 HDL_cityCompileMap["shandong"] = HDL_beijing
 
 
-# 读取以前保存的城市的IP供可用性检查
 def getProxyFromFile(region):
+    """读取以前保存的城市的IP供可用性检查"""
     try:
         TIME_FORMAT = '%Y%m%d_%H'
         currentHour = datetime.datetime.now()
@@ -105,7 +114,7 @@ def getProxyFromFile(region):
             print("FileAfterPath not exists")
             return
 
-        readFile = open(fileAfterPath,"r")
+        readFile = open(fileAfterPath, "r")
         isFileOpened = True
         
         for eachLine in readFile:
@@ -119,14 +128,16 @@ def getProxyFromFile(region):
         if(isFileOpened):
             readFile.close()
 
-#获取代理的类
+
 class ProxyGet(threading.Thread):
-    def __init__(self,target,p):
+    """获取代理的类"""
+    def __init__(self, target, p):
         threading.Thread.__init__(self)
         self.target = target
         self.p = p
 
     def getProxy(self):
+        """从目标网站得到IP代理"""
         print "目标网站：" + self.target
         req = urllib2.urlopen(self.target)
         result = req.read()
@@ -140,16 +151,17 @@ class ProxyGet(threading.Thread):
             # 中文所在城市名称
             city_cn = row[3]
             speed = row[4]
-            proxy = [ip + ":" + port,province_en,city_cn,speed]
+            proxy = [ip + ":" + port, province_en, city_cn, speed]
             print(proxy)
             rawProxyList.append(proxy)
 
     def run(self):
         self.getProxy()
 
-#检验代理类
+
 class ProxyCheck(threading.Thread):
-    def __init__(self,proxyList):
+    """检验代理类"""
+    def __init__(self, proxyList):
         threading.Thread.__init__(self)
         self.proxyList = proxyList
         self.timeout = 5
@@ -157,24 +169,26 @@ class ProxyCheck(threading.Thread):
         self.testStr = "030173"
 
     def checkProxy(self):
+        """检验代理类方法"""
         cookies = urllib2.HTTPCookieProcessor()
         for proxy in self.proxyList:
-            proxyHandler = urllib2.ProxyHandler({"http" : r'http://%s' %(proxy[0])})
-            opener=urllib2.build_opener(cookies,proxyHandler)
-            opener.addheaders =[('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
+            proxyHandler = urllib2.ProxyHandler({"http": r'http://%s' % (proxy[0])})
+            opener = urllib2.build_opener(cookies, proxyHandler)
+            opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) \
+                    AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
             t1 = time.time()
             try:
-                req = opener.open(self.testUrl,timeout=self.timeout)
+                req = opener.open(self.testUrl, timeout = self.timeout)
                 result=req.read()
                 timeused = time.time()-t1
                 pos = result.find(self.testStr)
 
                 if pos > 1:
-                    checkedProxyList.append((proxy[0],proxy[1],proxy[2],proxy[3],timeused))
-                    print "ok ip: %s %s %s %s %s" %(proxy[0],proxy[1],proxy[2],proxy[3],timeused)
+                    checkedProxyList.append((proxy[0], proxy[1], proxy[2], proxy[3], timeused))
+                    print "ok:%s %s %s %s %s" % (proxy[0], proxy[1], proxy[2], proxy[3], timeused)
                 else:
                     continue
-            except Exception,e:
+            except Exception as e:
                 continue
 
     def run(self):
@@ -182,6 +196,7 @@ class ProxyCheck(threading.Thread):
 
 
 def main():
+    """main"""
     getThreads=[]
     checkThreads=[]
     getProxyFromFile(config.REGION)
@@ -219,16 +234,17 @@ def main():
     fileBeforePath = "proxyList/" + config.REGION + "/proxyListRaw." + time.strftime(TIME_FORMAT)
     fileAfterPath = "proxyList/" + config.REGION + "/proxyListAfter." + time.strftime(TIME_FORMAT)
     #持久化验证前的数据
-    fileBefore = open(fileBeforePath,'w+')
-    for proxy in sorted(rawProxyList, cmp=lambda x,y:cmp(x[3],y[3])):
-        print "write raw proxy is: %s\t%s\t%s\t%s" %(proxy[0],proxy[1],proxy[2],proxy[3])
-        fileBefore.write("%s\t%s\t%s\t%s\n"%(proxy[0],proxy[1],proxy[2],proxy[3]))
+    fileBefore = open(fileBeforePath, 'w+')
+    for proxy in sorted(rawProxyList, cmp = lambda x, y: cmp(x[3], y[3])):
+        print "write raw proxy is: %s\t%s\t%s\t%s" % (proxy[0], proxy[1], proxy[2], proxy[3])
+        fileBefore.write("%s\t%s\t%s\t%s\n" % (proxy[0], proxy[1], proxy[2], proxy[3]))
     fileBefore.close()
 
 
     #开启20个线程负责校验，将抓取到的代理分成20份，每个线程校验一份
     for i in range(20):
-        t = ProxyCheck(rawProxyList[((len(rawProxyList)+19)/20) * i:((len(rawProxyList)+19)/20) * (i+1)])
+        t = ProxyCheck(rawProxyList\
+            [((len(rawProxyList) + 19) / 20) * i: ((len(rawProxyList) + 19) / 20) * (i + 1)])
         checkThreads.append(t)
 
     for i in range(len(checkThreads)):
@@ -237,16 +253,16 @@ def main():
     for i in range(len(checkThreads)):
         checkThreads[i].join()
 
-    print '.' * 10 + "总共有%s个代理通过校验" %len(checkedProxyList) + '.' * 10
+    print '.' * 10 + "总共有%s个代理通过校验" % len(checkedProxyList) + '.' * 10
 
     #持久化验证后的数据
-    fileAfter = open(fileAfterPath,'w+')
-    for proxy in sorted(checkedProxyList,cmp=lambda x,y:cmp(x[4],y[4])):
-        print "checked proxy is: %s\t%s\t%s\t%s" %(proxy[0],proxy[1],proxy[2],proxy[4])
-        fileAfter.write("%s\t%s\t%s\t%s\n"%(proxy[0],proxy[1],proxy[2],proxy[4]))
+    fileAfter = open(fileAfterPath, 'w+')
+    for proxy in sorted(checkedProxyList, cmp = lambda x, y: cmp(x[4], y[4])):
+        print "checked proxy is: %s\t%s\t%s\t%s" % (proxy[0], proxy[1], proxy[2], proxy[4])
+        fileAfter.write("%s\t%s\t%s\t%s\n" % (proxy[0], proxy[1], proxy[2], proxy[4]))
     fileAfter.close()
 
 
 if __name__ == "__main__":
-        main()
-        # currentIP = ipProxy.getIpFromRegion()
+    main()
+    # currentIP = ipProxy.getIpFromRegion()

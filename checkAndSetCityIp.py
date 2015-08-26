@@ -28,34 +28,39 @@ CONFIGFILE="cityIp.cfg"
 
 
 def makePath(pathDir):
+    """如果目录不存在，则创建目录"""
     if not os.path.exists(pathDir):
         print(pathDir + "path not exists and create it")
         os.makedirs(pathDir)
 
-# 为server配置log
+
 def initLog():
+    """为server配置log"""
     import logging
     logger = logging.getLogger()
     DATE_FORMAT = '%Y%m%d'
     currentDate = datetime.datetime.now().strftime(DATE_FORMAT)
     makePath("logs/checkAndSetIpLog")
     logFileName = "logs/checkAndSetIpLog/checkAndSetIp_" + currentDate + ".log"
-    hdlr = logging.basicConfig(filename=logFileName,level=logging.NOTSET,format='%(asctime)s %(levelname)s: %(message)s')
+    hdlr = logging.basicConfig(filename = logFileName,
+            level = logging.NOTSET, format = '%(asctime)s %(levelname)s: %(message)s')
     return logger
 
 logger = initLog()
 
 def checkProxy(proxy):
+    """检查Proxy逻辑"""
     testUrl = "http://www.baidu.com/"
     testStr = "030173"
     timeout = 3
     cookies = urllib2.HTTPCookieProcessor()
-    proxyHandler = urllib2.ProxyHandler({"http" : r'http://%s' %(proxy)})
-    opener = urllib2.build_opener(cookies,proxyHandler)
-    opener.addheaders =[('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
+    proxyHandler = urllib2.ProxyHandler({"http": r'http://%s' % (proxy)})
+    opener = urllib2.build_opener(cookies, proxyHandler)
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) \
+                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
     t1 = time.time()
     try:
-        req = opener.open(testUrl,timeout=timeout)
+        req = opener.open(testUrl, timeout = timeout)
         result = req.read()
         timeused = time.time() - t1
         pos = result.find(testStr)
@@ -66,10 +71,12 @@ def checkProxy(proxy):
         else:
             logger.info("ip not use: " + proxy)
             return False
-    except Exception,e:
+    except Exception as e:
         return False
 
+
 def getIpfromProxyList(exceptIp):
+    """从每小时轮询一次的IP文件中获得最好的代理IP"""
     logger.info("getIpfromProxyList start")
     logger.info("getIpfromProxyList start")
 
@@ -88,7 +95,7 @@ def getIpfromProxyList(exceptIp):
         return "0"
 
     try:    
-        readFile = open(fileAfterPath,"r")
+        readFile = open(fileAfterPath, "r")
         
         for eachLine in readFile:
             lineArray = eachLine.split('\t')
@@ -103,7 +110,9 @@ def getIpfromProxyList(exceptIp):
     finally:
         readFile.close()
 
+
 def main():
+    """main"""
     logger.info("------------start--------------")
     config = ConfigParser.ConfigParser()
     config.read(CONFIGFILE)
@@ -164,5 +173,4 @@ def main():
             return
 
 if __name__ == "__main__":
-
     main()

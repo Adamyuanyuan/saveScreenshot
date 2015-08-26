@@ -1,38 +1,73 @@
 # baidu_saveScreenshot
 自动化异地跨平台网页截图工具的开发
 
-# 安装方式
-##1. 准备
-假设这是一台新申请的windows机器，只安装了公司必要的软件
-首先，新建文件夹：“D:\baidu\saveScreenshot\”
-下载安装git
-在此文件夹下将代码从git上下载到本地，得到 baidu_saveScreenshot\
-##2. 安装环境
-####5. 部署到windows/Linux主机上
+# 安装方式_百度内部
+##1. 使用mstsc远程连接要安装的windows服务器:
+	开始--> 运行--> 输入mstsc
+	点选项, 分别输入 172.18.12.134 BDSH00000048068\baidu 密码为 Password123
+	如果机器刚打开，则需要登录百度内网准入
+注：其它机器
+	172.18.12.190 BDSY000067408\baidu Password123 北京
+	172.18.12.192 BDSY000067374\baidu Password123 四川
+	172.18.12.191 adam-PC\adam Caphi2009 性能差,备用
+	172.18.12.135 BDSH00000050167\baidu Password123
 
-目前部署到我的windows主机上，后又部署到了一个台式机上，现在将部署方法总结一下，因为以后还要继续部署：
+##2. 安装必备环境
+所有必备的软件从[http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip](http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip)下载，直接IE浏览器打开这个链接即可下载，里面有 Python27, svn_win64, pip(可不装), gitBash, chrome, chromedriver, phantomjs, nginx(SVN代码中已有，可不装), sublime(可不装),
+下载好之后，解压到D盘，然后进行下述步骤
 
-1. 安装Python27，添加"C:\Python27" 与 "C:\Python27\Scripts" 到path系统变量
-2. 安装Python的pip，为以后添加各种程序方便而使用，下载pip安装程序并解压,因为安装到了
-    2.1 在以下地址下载最新的PIP安装文件：http://pypi.python.org/pypi/pip#downloads
-    2.2 解压到C盘根目录
-    2.3 进入这个目录，然后输入 python setup.py install，运行即可
+1. 安装Python27，一直点击下一步即可，添加"C:\Python27;C:\Python27\Scripts" 到path系统变量
+    安装好后，进入cmd，输入 python --version 验证是否安装好
+2. (这个可以不安装，因为Python27自带pip)安装Python的pip，为以后添加各种程序方便而使用，下载pip安装程序并解压
+    2.1 解压pip到C盘根目录
+    2.2 进入这个目录，然后输入 python setup.py install，运行即可
 3. 安装phantomjs：
-	在[phantomjs官网](http://phantomjs.org/)下载，然后解压，将 phantomjs.exe 直接加入 "C:\Python27\Scripts" 目录即可
-4. 安装bottle,tornado,web.py
-都是最新版本,因为那边需求一直在变(需要有时候单线程，有时候多线程，能够设置线程池的大小,个人还不理解其必要性,就差使用Spring了)，所以我这边使用了三个框架实现了server，各有优缺点，其中tornado最有潜力
-    pip install bottle ：具有单线程(直接启动)和多线程并发执行(使用waitress(pip安装)作为服务器)的模式，单线程的具有根据不同的城市修改代理IP的功能
-    pip install tornado ：使用非阻塞的异步来实现，目前是单线程
-    pip install web.py ： 在研读其核心模块[源码](http://diaocow.iteye.com/blog/1922760)，修改了web.py的部分源码之后，具有设定线程池大小的功能, 被修改的源码文件在git上，直接覆盖(C:\Python27\Lib\site-packages\web)即可
-    由于是启动的是多线程，故增加了logging功能，对不同的进程有一个进程号(目前是自增，比UUID有顺序性)
-5. 设置windows定时，[请看链接教程](http://blog.csdn.net/liqfyiyi/article/details/8812971)
-6. 配置nginx代理，使能够查看截图，这个简单，直接git下载最新代码即可
+	在phantomjs-2.0.0-windows.rar/bin/phantomjs.exe中，将 phantomjs.exe 直接复制到 "C:\Python27\Scripts" 目录即可
+	安装好后，进入cmd，输入 phantomjs --version 验证是否安装好
+4. 安装selenium: pip install -U selenium
+4. 安装svn_win64, gitBash(建议安装), sublime(建议安装):一直点击下一步即可
 
-####关于flash/*.swf结尾的文件的截图
-由于phantomjs对于flash支持得不够好，所以这里目前优先使用selenium完成凯仁给我的5万个flash截图的任务
+5. 安装chrome, 点击下一步即可，然后将chromedriver 放在chrome.exe所在目录下，并设置chrome路径(一般是C:\Program Files (x86)\Google\Chrome\Application)在path中（设置环境变量）
+6. 安装web.py并将我的修改的代码覆盖源代码
+   命令行执行 pip install web.py ：修改了web.py的部分源码之后，具有设定线程池大小的功能, 被修改的源码文件在svn上，直接覆盖(源代码在C:\Python27\Lib\site-packages\web)即可
+   由于是启动的是多线程，故增加了logging功能，对不同的进程有一个进程号(目前是自增，比UUID有顺序性)
 
-1. 安装selenium: pip install -U selenium
-2. 安装chromedriver，并且放在chrome.exe通目录下，并设置chrome路径在path中（设置环境变量）
+##3. 将需要的代码下载下来,然后启动server:
+1. 通过cmd进入D:盘，执行下列命令从SVN中获取需要的代码:
+	svn export https://svn.baidu.com/app/ecom/nova/trunk/tools/badcase/badcase-server/platform/ideaAnalysisPlatformV2/baidu
+2. 设置城市
+修改 D:\baidu\saveScreenshot\baidu_saveScreenshot\config.py中的全局变量，来确定不同的城市
+比如，我这台172.18.12.134 的机器，如果想作为IP为北京的服务器，则应该如下设置：
+	LOCAL_IP_ADDRESS = "http://172.18.12.134/"
+    REGION = "beijing"
+检测定时抓取代码是否可用，手动执行grapCityIp.py，就会发现有proxList文件被创建，里面放的是可用的IP
+3. 启动nginx代理
+进入D:\baidu\saveScreenshot\baidu_saveScreenshot\nginx-1.9.2 执行nginx-t 然后执行nginx
+然后浏览器输入 http://localhost/nginx-1.9.2/snapshot/test.png，如果显示图片，则说明nginx正常
+4. 启动server
+进入 D:\baidu\saveScreenshot\baidu_saveScreenshot
+执行 python webScreenshotService.py numthreads 8083 4 -1 5
+如果出现如下信息，则代表启动服务成功
 
-在使用代理进行截图的时候遇到了一个bug，就是chromedriver.exe启动之后quit()抛出异常，解决方案如下：
-[stackoverflow](http://stackoverflow.com/questions/22018126/selenium-chromedriver-http-407-on-driver-quit). 即 I fixed this problem by opening Internet Options > Connections > LAN settings > Advanced and inserting 127.0.0.1 into the Exceptions box.
+	logs/webpyServiceLogpath not exists and create it
+	----test,numthreads:4
+	----test,maxthreads:-1
+	----test,request_queue_size:5
+	http://0.0.0.0:8083/
+试一下：
+    http://172.18.12.134/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456
+
+    http://172.18.12.134/WebScreenshot?isFlash=false&url=http://www.baidu.com&useragent=pcChrome&username=novaqa&token=123456
+
+
+##4. 设置windows定时计划任务
+可以参考这个教程：[请看链接教程](http://blog.csdn.net/liqfyiyi/article/details/8812971)
+###1.python_grapIpProxy
+1. 菜单-->输入 计划 --> 打开 "任务计划程序"-->操作-->导入任务--> D:\baidu\saveScreenshot\baidu_saveScreenshot\taskScanner\python_grapIpProxy.xml
+2. 这时会有个任务导入，在 "常规"面板 修改"更改用户或组" 然后在"输入要选择的对象名称"输入"baidu"-->检查名称-->确定
+3. 选择 "不管用户是否登陆都要运行+不存储密码"，点击确定即可
+
+###2.python_grapIpProxy
+1. 菜单-->输入 计划 --> 打开 "任务计划程序"-->操作-->导入任务--> D:\baidu\saveScreenshot\baidu_saveScreenshot\taskScanner\python_checkAndSetCityIp.xml
+2. 这时会有个任务导入，在 "常规"面板 修改"更改用户或组" 然后在"输入要选择的对象名称"输入"baidu"-->检查名称-->确定
+3. 选择 "不管用户是否登陆都要运行+不存储密码"，点击确定即可

@@ -1,6 +1,9 @@
 # -*- coding:  utf-8 -*-
-#!/usr/bin/python
-# author: wangxiaogang02@baidu.com
+''' 设定代理IP相关的方法
+
+Authors: wangxiaogang02@baidu.com
+Date: 2015/08/07
+'''
 
 import io
 import sys
@@ -11,6 +14,7 @@ import _winreg
 import datetime
 
 def getIpFromRegion(region):
+    """通过地区字符串来得到对应的代理IP"""
     if (region == '') or (region == 'shanghai') or ("上海" in region):
         print("region is shanghai")
         return '0'
@@ -26,7 +30,7 @@ def getIpFromRegion(region):
                 fileAfterPath = "proxyList/all/proxyListAfter." \
                         + lastHour.strftime(TIME_FORMAT)
             
-            readFile = open(fileAfterPath,"r")
+            readFile = open(fileAfterPath, "r")
             
             for eachLine in readFile:
                 lineArray = eachLine.split('\t')
@@ -40,7 +44,9 @@ def getIpFromRegion(region):
         finally:
             readFile.close()
 
+
 def enableProxy(proxy):
+    """通过修改windows注册列表并且刷新使得IP有效"""
     xpath = "Software\Microsoft\Windows\CurrentVersion\Internet Settings"
     try:
         key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, xpath, 0, _winreg.KEY_WRITE)
@@ -51,7 +57,9 @@ def enableProxy(proxy):
     finally:
         None
 
+
 def disableProxy():
+    """通过修改windows注册列表并且刷新使得IP无效"""
     proxy = ""
     xpath = "Software\Microsoft\Windows\CurrentVersion\Internet Settings"
     try:
@@ -63,8 +71,9 @@ def disableProxy():
     finally:
         None
 
-# 刷新使得注册表的改变生效，就不需要重启IE了
+
 def refresh():
+    """刷新使得注册表的改变生效，就不需要重启IE了"""
     import ctypes
 
     INTERNET_OPTION_REFRESH = 37
@@ -75,7 +84,9 @@ def refresh():
     internet_set_option(0, INTERNET_OPTION_REFRESH, 0, 0)
     internet_set_option(0, INTERNET_OPTION_SETTINGS_CHANGED, 0, 0)
 
+
 def setProxy(proxy):
+    """设定IP"""
     if proxy == "0":
         try:
             disableProxy()
@@ -98,6 +109,7 @@ def setProxy(proxy):
 
 
 def main():
+    """main函数,求CR"""
     proxy = sys.argv[1]
     setProxy(proxy)
 

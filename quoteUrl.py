@@ -4,7 +4,7 @@
 
 ''' url 转码工具
 这个工具的目的是对url进行转码，因为很多ubmc的物料中有诸如?,&之类的特殊字符，
-server会误识别，所以需要被转码成%XX的形式
+server会误识别，所以需要被转码成"%XX"的形式
 
 Authors: wangxiaogang02@baidu.com
 Date: 2015/08/07
