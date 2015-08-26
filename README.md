@@ -6,7 +6,9 @@
 	开始--> 运行--> 输入mstsc
 	点选项, 分别输入 172.18.12.134 BDSH00000048068\baidu 密码为 Password123
 	如果机器刚打开，则需要登录百度内网准入
+
 注：其它机器
+
 	172.18.12.190 BDSY000067408\baidu Password123 北京
 	172.18.12.192 BDSY000067374\baidu Password123 四川
 	172.18.12.191 adam-PC\adam Caphi2009 性能差,备用
@@ -33,20 +35,31 @@
    由于是启动的是多线程，故增加了logging功能，对不同的进程有一个进程号(目前是自增，比UUID有顺序性)
 
 ##3. 将需要的代码下载下来,然后启动server:
-1. 通过cmd进入D:盘，执行下列命令从SVN中获取需要的代码:
+1. SVN下载代码
+
+通过cmd进入D:盘，执行下列命令从SVN中获取需要的代码
+
 	svn export https://svn.baidu.com/app/ecom/nova/trunk/tools/badcase/badcase-server/platform/ideaAnalysisPlatformV2/baidu
+
 2. 设置城市
+
 修改 D:\baidu\saveScreenshot\baidu_saveScreenshot\config.py中的全局变量，来确定不同的城市
 比如，我这台172.18.12.134 的机器，如果想作为IP为北京的服务器，则应该如下设置：
+
 	LOCAL_IP_ADDRESS = "http://172.18.12.134/"
     REGION = "beijing"
 检测定时抓取代码是否可用，手动执行grapCityIp.py，就会发现有proxList文件被创建，里面放的是可用的IP
+
 3. 启动nginx代理
+
 进入D:\baidu\saveScreenshot\baidu_saveScreenshot\nginx-1.9.2 执行nginx-t 然后执行nginx
 然后浏览器输入 http://localhost/nginx-1.9.2/snapshot/test.png，如果显示图片，则说明nginx正常
+
 4. 启动server
+
 进入 D:\baidu\saveScreenshot\baidu_saveScreenshot
-执行 python webScreenshotService.py numthreads 8083 4 -1 5
+执行 
+    python webScreenshotService.py numthreads 8083 4 -1 5
 如果出现如下信息，则代表启动服务成功
 
 	logs/webpyServiceLogpath not exists and create it
@@ -54,7 +67,9 @@
 	----test,maxthreads:-1
 	----test,request_queue_size:5
 	http://0.0.0.0:8083/
+
 试一下：
+
     http://172.18.12.134/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456
 
     http://172.18.12.134/WebScreenshot?isFlash=false&url=http://www.baidu.com&useragent=pcChrome&username=novaqa&token=123456
@@ -71,3 +86,7 @@
 1. 菜单-->输入 计划 --> 打开 "任务计划程序"-->操作-->导入任务--> D:\baidu\saveScreenshot\baidu_saveScreenshot\taskScanner\python_checkAndSetCityIp.xml
 2. 这时会有个任务导入，在 "常规"面板 修改"更改用户或组" 然后在"输入要选择的对象名称"输入"baidu"-->检查名称-->确定
 3. 选择 "不管用户是否登陆都要运行+不存储密码"，点击确定即可
+
+现在这些计划任务还没有被启动，在任务面板中将其设置为启用就OK
+
+好，恭喜你，至此，server就搭建起来了，因为是在windows上搭建的，并且需要安装一些软件，所以比较麻烦

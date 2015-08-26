@@ -29,22 +29,15 @@ print XC_targets
 
 XC_cityCompileMap = {}
 #正则
-XC_all = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>
-    .+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
-XC_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>
-    .+?<td>.+?<a href=\"/.+?/(hebei)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_all = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(.{2,15})\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_hebei = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(hebei)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
 # XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''',re.DOTALL)
-XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
-    .+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
+XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(beijing)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
 # XC_beijing = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?<td>.+?<a href=\"/.+?/(beijing)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
-XC_shandong = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
-    .+?(\d{2,5})</td>.+?(shandong)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
-XC_shanghai = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
-    .+?(\d{2,5})</td>.+?(shanghai)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
-XC_jiangxi = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
-    .+?(\d{2,5})</td>.+?(jiangxi)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
-XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>
-    .+?(\d{2,5})</td>.+?(sichuan)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
+XC_shandong = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(shandong)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_shanghai = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(shanghai)\">(.+?)</a>.+?title=\"(.{3,10})\" class=\"bar''', re.DOTALL)
+XC_jiangxi = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(jiangxi)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
+XC_sichuan = re.compile(r'''<tr class=".+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>.+?(\d{2,5})</td>.+?(sichuan)\">(.+?)</a>.+?<td>(.{4,5})</td>''', re.DOTALL)
 
 XC_cityCompileMap["all"] = XC_all
 XC_cityCompileMap["beijing"] = XC_beijing
@@ -78,10 +71,8 @@ print HDL_targets
 
 HDL_cityCompileMap = {}
 #正则
-HDL_all = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?
-    </td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
-HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?
-    </td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
+HDL_all = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
+HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
 
 # 它们的正则表达式是一样的
 HDL_cityCompileMap["all"] = HDL_all
