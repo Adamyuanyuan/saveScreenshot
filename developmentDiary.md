@@ -95,7 +95,7 @@ api_1: screenshot 通过省份得到固定网页的截图 输入：url=http://ww
 return Json:
 
 	{
-	  "screenshot_url":"http://http://172.18.12.191/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
+	  "screenshot_url":"http://172.18.12.191/screenshot/wwwbaiducom_beijing_pcChrome_201507221032.png"
 	}
 
 api_2: getCityIp 通过省份得到对应的代理IP
@@ -154,12 +154,14 @@ api_1: screenshot 通过省份得到固定网页的截图 输入：isFlash=true&
 - url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26 : 要截图的网页或者静态文件的url，如果url中有特殊字符，则需要转义，我会随后写个转义的小脚本给大家使用
 - useragent=pcChrome，useragent设置，只对网页截图(isFlash=false)有效，目前支持: [pc_chrome|pc_firefox|pc_ie8|android|iphone]
 - username=novaqa&token=123456 固定的用户名和密码，为与网盟其它API一致
+- dirName=testImageDir : 图片保存文件夹参数，可选，用于自动化截图后的打包,默认 flashSnapshot_地区拼音_日期
+- imageName=testImageName ： 图片保存名称参数，可选，用于保存的图片名，默认 url(取出特殊字符)_地区拼音_useragent_时间戳.png
 
 
-	http://localhost:8080/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456
+	http://172.18.12.191:8083/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456&dirName=testImageDir&imageName=testImageName
 
 return Json:
 
 	{
-	  'screenshotUrl':'http://localhost/flashSnapshot/flashSnapshot_all_20150806/ubmcmmbaidustaticcommediav10f0005TkYRYWPBHoEyanj0swf_all_pcChrome_20150806_145645.png'
+	  'screenshotUrl':'http://172.18.12.191/flashSnapshot/flashSnapshot_all_20150806/ubmcmmbaidustaticcommediav10f0005TkYRYWPBHoEyanj0swf_all_pcChrome_20150806_145645.png'
 	}

@@ -71,8 +71,8 @@ class WebScreenshot(object):
         processName = "process_" + str(requestSeqNum)
         print("screenshot start" + processName)
         logger.info(processName + ": " + "screenshot start")
-        user_data = web.input(username = "novaqa", token = "123456", 
-                    url = "", useragent = "pcChrome", isFlash = "false")
+        user_data = web.input(username = "novaqa", token = "123456", url = "", 
+                useragent = "pcChrome", isFlash = "false", dirName = "", imageName = "")
         print(user_data)
         logger.info(processName + ": " + str(user_data))
         username = user_data.username
@@ -98,14 +98,21 @@ class WebScreenshot(object):
             DATE_FORMAT = '%Y%m%d'
             currentDate = datetime.datetime.now().strftime(DATE_FORMAT)
 
-            outPutImg = url.split("?")[0].replace(".", "").replace("http://", "")\
-                     .replace("/", "").replace(":", "") +\
-                     "_" + config.REGION + "_" + useragent + "_" + currentTime + ".png"
+            imageName = user_data.imageName
+            if not imageName == '':
+                outPutImg = imageName
+            else:
+                outPutImg = url.split("?")[0].replace(".", "").replace("http://", "")\
+                         .replace("/", "").replace(":", "") +\
+                         "_" + config.REGION + "_" + useragent + "_" + currentTime + ".png"
             # print(outPutImg)
-            
+
+            dirName = user_data.dirName
+            savedDir = dirName
             isFlash = user_data.isFlash
             if isFlash == "false":
-                savedDir = "webSnapshot/webSnapshot_" + config.REGION + "_" + currentDate
+                if savedDir == '':
+                    savedDir = "webSnapshot/webSnapshot_" + config.REGION + "_" + currentDate
                 makePath(savedDir)
                 savedImg = savedDir + "/" + outPutImg
                 screenshotScript = "phantomjs screenshot.js \"" + url + "\" \"" \
@@ -113,7 +120,8 @@ class WebScreenshot(object):
                 logger.info(processName + ": " + screenshotScript)
                 print(screenshotScript)
             else:
-                savedDir = "flashSnapshot/flashSnapshot_" + config.REGION + "_" + currentDate
+                if savedDir == '':
+                    savedDir = "flashSnapshot/flashSnapshot_" + config.REGION + "_" + currentDate
                 makePath(savedDir)
                 savedImg = savedDir + "/" + outPutImg
                 screenshotScript = "python saveCityScreenshot.py \"" \
