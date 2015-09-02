@@ -33,6 +33,9 @@
 6. 安装web.py并将我的修改的代码覆盖源代码
    命令行执行 pip install web.py ：修改了web.py的部分源码之后，具有设定线程池大小的功能, 被修改的源码文件在svn上，直接覆盖(源代码在C:\Python27\Lib\site-packages\web)即可
    由于是启动的是多线程，故增加了logging功能，对不同的进程有一个进程号(目前是自增，比UUID有顺序性)
+7. 安装python第三方requests包,下载完成后，放到C:\Python27\Lib\requests-master
+cmd 切换到 C:\Python27\Lib\requests-master
+执行 python setup.py install
 
 ##3. 将需要的代码下载下来,然后启动server:
 1. SVN下载代码

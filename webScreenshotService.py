@@ -54,7 +54,8 @@ def initLog():
     return logger
 
 urls = (
-    '/WebScreenshot', 'WebScreenshot'
+    '/WebScreenshot', 'WebScreenshot',
+    '/SendDataClient', 'SendDataClient'
 )
 app = web.application(urls, globals())
 logger = initLog()
@@ -64,7 +65,11 @@ requestSeqNum = 0
 class WebScreenshot(object):
     """WebScreenshot类，作为flashshot的服务"""
     def GET(self):
-        """baidu cooder review..."""
+        """
+            http://localhost:8083/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com
+            /media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome
+            &username=novaqa&token=123456&dirName=testImageDir&imageName=testImageName
+        """
         # 使用全局变量来区分不同的进程，这样错误日志才有用
         global requestSeqNum
         requestSeqNum += 1
@@ -159,6 +164,57 @@ class WebScreenshot(object):
         jsonStringToReturn = "{'screenshotUrl':'" + outPutImgUrl + "'}"
         logger.info(processName + ": " + jsonStringToReturn)
         return jsonStringToReturn
+
+
+class SendDataClient(object):
+    """SendDataClient类，作为flashshot的服务
+    
+        http://localhost:8083/SendDataClient?dirName=flashSnapshot\flashSnapshot_all_20150806
+    """
+    def GET(self):
+        """baidu cooder review..."""
+
+        print("SendDataClient start")
+        logger.info("SendDataClient start")
+        user_data = web.input(dirName = "")
+        print(user_data)
+        logger.info("SendDataClient: " + str(user_data))
+        dirName = user_data.dirName
+        if dirName == '':
+            logger.info("SendDataClientDirNameEmptyError!")
+            return genErrorJsonString("SendDataClientDirNameEmptyError!")
+
+        try:
+            SendDataClientScript = "python sendDataClient.py \"" + dirName + "\""
+            logger.info("SendDataClient: " + SendDataClientScript)
+            print(SendDataClientScript)
+
+            # subprocess.call(["phantomjs", "screenshot.js", url, savedImg.encode(sys.getfilesystemencoding()), useragent],shell=True)
+            # screenResult = os.popen(screenshotScript.encode(sys.getfilesystemencoding()))
+            # 解决了中文乱码问题, 使用subprocess可以使得disableProxy可以有效执行
+            screenResult = subprocess.call(SendDataClientScript.encode(\
+                sys.getfilesystemencoding()))
+            logger.info("SendDataClient: " + "result: " + str(screenResult))
+            print(screenResult)
+
+            # must diableProxy before return
+            if not screenResult == 0:
+                logger.error("SendDataClient: " + "SendDataClientError")
+                return genErrorJsonString("SendDataClientError")
+
+        except Exception as e:
+            logger.error("SendDataClient: " + "ERROR: " + str(e.args))
+            print("ERROR: " + str(e.args))
+            return genErrorJsonString(str(e.args))
+        finally:
+            # disableProxyScript = "python ipProxy.py 0"
+            # os.popen(disableProxyScript)
+            pass
+
+        # jsonStringToReturn = "<body>{ 'screenshotUrl' : '<a href=\"" + outPutImgUrl + "\">" + outPutImgUrl + "</a>'}</body>"
+        jsonStringToReturn = "{'SendDataClient':'done'}"
+        return jsonStringToReturn
+
 
 
 if __name__ == "__main__":
