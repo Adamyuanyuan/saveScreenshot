@@ -50,26 +50,36 @@ logger = initLog()
 
 def checkProxy(proxy):
     """检查Proxy逻辑"""
-    testUrl = "http://www.baidu.com/"
-    testStr = "030173"
+    testUrl = "https://www.sogou.com/"
+    testStr = "050897"
+    # testStr = "050897"
+    # testUrl = "https://www.baidu.com/"
+    # testStr = "030173"
     timeout = 3
     cookies = urllib2.HTTPCookieProcessor()
     proxyHandler = urllib2.ProxyHandler({"http": r'http://%s' % (proxy)})
-    opener = urllib2.build_opener(cookies, proxyHandler)
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) \
-                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
+    opener = urllib2.build_opener(cookies, proxyHandler, urllib2.HTTPHandler)
+    r = urllib2.Request(testUrl)
+    r.add_header("Accept-Language","utf-8") #加入头信息,这样可避免403错误
+    r.add_header("Content-Type","text/html; charset=utf-8")
+    r.add_header("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.1.4322)")
+    # opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) \
+    #             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
     t1 = time.time()
     try:
-        req = opener.open(testUrl, timeout = timeout)
+        req = opener.open(r, timeout = timeout)
         result = req.read()
+        # print(result)
         timeused = time.time() - t1
         pos = result.find(testStr)
 
         if pos > 1:
             logger.info("ip ok: " + proxy)
+            print("ip ok: " + proxy)
             return True
         else:
             logger.info("ip not use: " + proxy)
+            print("ip not use: " + proxy)
             return False
     except Exception as e:
         return False
@@ -77,7 +87,6 @@ def checkProxy(proxy):
 
 def getIpfromProxyList(exceptIp):
     """从每小时轮询一次的IP文件中获得最好的代理IP"""
-    logger.info("getIpfromProxyList start")
     logger.info("getIpfromProxyList start")
 
     TIME_FORMAT = '%Y%m%d_%H'
@@ -92,6 +101,8 @@ def getIpfromProxyList(exceptIp):
                 + lastHour.strftime(TIME_FORMAT)
 
     if not os.path.exists(fileAfterPath):
+        logger.info("last hour proxy list dose not exists, return 0")
+        print("last hour proxy list dose not exists, return 0")
         return "0"
 
     try:    
@@ -120,14 +131,18 @@ def main():
     ip1 = config.get("info", "ip1")
     ip2 = config.get("info", "ip2")
     logger.info(ip1)
+    print(ip1)
     logger.info(ip2)
+    print(ip2)
     if checkProxy(ip1):
         ipProxy.setProxy(ip1)
         if checkProxy(ip2):
             logger.info("ip1 and ip2 ok")
+            print("ip1 and ip2 ok")
             return
         else:
             logger.info("ip2 need selectedIp")
+            print("ip2 need selectedIp")
             # 从IP列表中找到IP不是ip1的IP并验证
             selectedIp = getIpfromProxyList(ip1)
             config.set("info", "ip2", selectedIp)
@@ -137,6 +152,7 @@ def main():
     else:
         if checkProxy(ip2):
             logger.info("ip2 --> ip1")
+            print("ip2 --> ip1")
             ipProxy.setProxy(ip2)
             selectedIp = getIpfromProxyList(ip2)
             config.set("info", "ip1", ip2)
@@ -147,6 +163,7 @@ def main():
         # 如果两个IP都不可用，查找之后的ip仍然不可用，则驱动例行的grapCityIp.py提前执行
         else:
             logger.info("ip1 and ip2 all need selectedIp")
+            print("ip1 and ip2 all need selectedIp")
             selectedIp1 = getIpfromProxyList("0")
             # 一直循环驱动直到找到正确IP
             loopVar = 0
@@ -154,6 +171,7 @@ def main():
                 if loopVar < 3:
                     loopVar += 1
                 elif loopVar < 5:
+                    loopVar += 1
                     # 如果超过三次还不成功，则取消代理
                     ipProxy.setProxy("0")
                 else:

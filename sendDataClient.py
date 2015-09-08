@@ -9,7 +9,7 @@ import sys
 
 
 TARGET_SERVER_ADDR = 'http://10.48.48.62:8089'
-TARGET_FILE_TYPE = '.png'
+TARGET_FILE_TYPE = '.jpg'
 logger = None
 
 def init_logger():

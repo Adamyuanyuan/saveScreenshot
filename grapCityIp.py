@@ -18,8 +18,8 @@ import os
 import config
 import ipProxy
 
-rawProxyList = []
-checkedProxyList = []
+rawProxyDir = {}
+checkedProxyList = {}
 
 #抓取代理网站1： 西祠代理网站
 XC_targets=[]
@@ -110,7 +110,7 @@ def getProxyFromFile(region):
         
         for eachLine in readFile:
             lineArray = eachLine.strip('\n').split('\t')
-            rawProxyList.append(lineArray)
+            rawProxyDir[lineArray[0]] = lineArray
             print(lineArray)
         
     except Exception as e:
@@ -144,7 +144,7 @@ class ProxyGet(threading.Thread):
             speed = row[4]
             proxy = [ip + ":" + port, province_en, city_cn, speed]
             print(proxy)
-            rawProxyList.append(proxy)
+            rawProxyDir[proxy[0]] = proxy
 
     def run(self):
         self.getProxy()
@@ -170,12 +170,12 @@ class ProxyCheck(threading.Thread):
             t1 = time.time()
             try:
                 req = opener.open(self.testUrl, timeout = self.timeout)
-                result=req.read()
-                timeused = time.time()-t1
+                result = req.read()
+                timeused = time.time() - t1
                 pos = result.find(self.testStr)
 
                 if pos > 1:
-                    checkedProxyList.append((proxy[0], proxy[1], proxy[2], proxy[3], timeused))
+                    checkedProxyList[proxy[0]] = [proxy[0], proxy[1], proxy[2], proxy[3], timeused]
                     print "ok:%s %s %s %s %s" % (proxy[0], proxy[1], proxy[2], proxy[3], timeused)
                 else:
                     continue
@@ -191,8 +191,9 @@ def main():
     getThreads=[]
     checkThreads=[]
     getProxyFromFile(config.REGION)
+    print("上次代理IP文件中共有代理：" + len(rawProxyDir))
 
-    #对西祠网站开启一个线程负责抓取代理
+    # 对西祠网站开启一个线程负责抓取代理
     for i in range(len(XC_targets)):
         p_city = XC_cityCompileMap[config.REGION]
         print p_city
@@ -212,7 +213,7 @@ def main():
     for i in range(len(getThreads)):
         getThreads[i].join()
 
-    print '.' * 10 + "总共抓取了%s个代理" % len(rawProxyList) + '.' * 10
+    print '.' * 10 + "总共抓取了%s个代理" % len(rawProxyDir) + '.' * 10
 
     TIME_FORMAT = '%Y%m%d_%H'
     # today = datetime.date.today()
@@ -226,7 +227,7 @@ def main():
     fileAfterPath = "proxyList/" + config.REGION + "/proxyListAfter." + time.strftime(TIME_FORMAT)
     #持久化验证前的数据
     fileBefore = open(fileBeforePath, 'w+')
-    for proxy in sorted(rawProxyList, cmp = lambda x, y: cmp(x[3], y[3])):
+    for proxy in sorted(rawProxyDir.values(), cmp = lambda x, y: cmp(x[3], y[3])):
         print "write raw proxy is: %s\t%s\t%s\t%s" % (proxy[0], proxy[1], proxy[2], proxy[3])
         fileBefore.write("%s\t%s\t%s\t%s\n" % (proxy[0], proxy[1], proxy[2], proxy[3]))
     fileBefore.close()
@@ -234,8 +235,8 @@ def main():
 
     #开启20个线程负责校验，将抓取到的代理分成20份，每个线程校验一份
     for i in range(20):
-        t = ProxyCheck(rawProxyList\
-            [((len(rawProxyList) + 19) / 20) * i: ((len(rawProxyList) + 19) / 20) * (i + 1)])
+        t = ProxyCheck(rawProxyDir.values()[((len(rawProxyDir.values()) + 19) / 20)\
+                * i: ((len(rawProxyDir.values()) + 19) / 20) * (i + 1)])
         checkThreads.append(t)
 
     for i in range(len(checkThreads)):
@@ -248,7 +249,7 @@ def main():
 
     #持久化验证后的数据
     fileAfter = open(fileAfterPath, 'w+')
-    for proxy in sorted(checkedProxyList, cmp = lambda x, y: cmp(x[4], y[4])):
+    for proxy in sorted(checkedProxyList.values(), cmp = lambda x, y: cmp(x[4], y[4])):
         print "checked proxy is: %s\t%s\t%s\t%s" % (proxy[0], proxy[1], proxy[2], proxy[4])
         fileAfter.write("%s\t%s\t%s\t%s\n" % (proxy[0], proxy[1], proxy[2], proxy[4]))
     fileAfter.close()
