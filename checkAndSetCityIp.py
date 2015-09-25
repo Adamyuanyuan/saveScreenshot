@@ -125,11 +125,14 @@ def getIpfromProxyList(exceptIp):
 def main():
     """main"""
     logger.info("------------start--------------")
-    config = ConfigParser.ConfigParser()
-    config.read(CONFIGFILE)
+    configFile = ConfigParser.ConfigParser()
+    configFile.read(CONFIGFILE)
 
-    ip1 = config.get("info", "ip1")
-    ip2 = config.get("info", "ip2")
+    ip1 = configFile.get("info", "ip1")
+    ip2 = configFile.get("info", "ip2")
+    uping = configFile.get("info", "uping")
+    if uping == 1:
+        return
     logger.info(ip1)
     print(ip1)
     logger.info(ip2)
@@ -145,8 +148,8 @@ def main():
             print("ip2 need selectedIp")
             # 从IP列表中找到IP不是ip1的IP并验证
             selectedIp = getIpfromProxyList(ip1)
-            config.set("info", "ip2", selectedIp)
-            config.write(open(CONFIGFILE, "w"))
+            configFile.set("info", "ip2", selectedIp)
+            configFile.write(open(CONFIGFILE, "w"))
             return
 
     else:
@@ -155,9 +158,9 @@ def main():
             print("ip2 --> ip1")
             ipProxy.setProxy(ip2)
             selectedIp = getIpfromProxyList(ip2)
-            config.set("info", "ip1", ip2)
-            config.set("info", "ip2", selectedIp)
-            config.write(open(CONFIGFILE, "w"))
+            configFile.set("info", "ip1", ip2)
+            configFile.set("info", "ip2", selectedIp)
+            configFile.write(open(CONFIGFILE, "w"))
             return
 
         # 如果两个IP都不可用，查找之后的ip仍然不可用，则驱动例行的grapCityIp.py提前执行
@@ -185,9 +188,9 @@ def main():
 
             ipProxy.setProxy(selectedIp1)
             selectedIp2 = getIpfromProxyList(selectedIp1)
-            config.set("info", "ip1", selectedIp1)
-            config.set("info", "ip2", selectedIp2)
-            config.write(open(CONFIGFILE, "w"))
+            configFile.set("info", "ip1", selectedIp1)
+            configFile.set("info", "ip2", selectedIp2)
+            configFile.write(open(CONFIGFILE, "w"))
             return
 
 if __name__ == "__main__":

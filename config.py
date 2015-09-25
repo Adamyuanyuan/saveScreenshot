@@ -7,3 +7,4 @@ Date: 2015/08/07
 
 LOCAL_IP_ADDRESS = "http://localhost/"
 REGION = "beijing"
+NEED_PROXY = True

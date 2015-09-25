@@ -63,20 +63,33 @@ def main():
     """
 
     log.init_log('./logs/send_data_client')
-    config = ConfigParser.ConfigParser()
-    config.read(CONFIGFILE)
-    ip1 = config.get("info", "ip1")
-    logging.info('ip1 ' + ip1)
-    # 在传送图片前，先将本地代理IP关掉
-    ipProxy.setProxy("0")
+
+    # 如果配置文件中配置了这个地区需要设定IP代理，则在上传文件前，先将代理IP取消，然后等执行完毕后再设置上
+    # 并且将 uping 设置为 1，此时每五分钟执行的checkIpProxy将不会修改此IP，上传结束后就修改回 0
+    if config.NEED_PROXY:
+        configFile = ConfigParser.ConfigParser()
+        configFile.read(CONFIGFILE)
+        configFile.set("info", "uping", 1)
+        configFile.write(open(CONFIGFILE, "w"))
+        logging.info('setProxy("0") ')
+        # 在传送图片前，先将本地代理IP关掉
+        ipProxy.setProxy("0")
+
     target_folder = sys.argv[1]
     target_filenames = get_file_list(target_folder)
     upload_files(target_folder, target_filenames)  
+    
     # 在传送图片后，将本地代理Ip继续设定
-    enableProxyScript = "python ipProxy.py " + ip1
-    os.popen(enableProxyScript)
-    # ipProxy.setProxy(ip1)
-    logging.info('setProxy ' + ip1)
+    if config.NEED_PROXY:
+        configFile = ConfigParser.ConfigParser()
+        configFile.read(CONFIGFILE)
+        ip1 = configFile.get("info", "ip1")
+        configFile.set("info", "uping", 0)
+        configFile.write(open(CONFIGFILE, "w"))
+        enableProxyScript = "python ipProxy.py " + ip1
+        os.popen(enableProxyScript)
+        # ipProxy.setProxy(ip1)
+        logging.info('setProxy ' + ip1)
 
 if __name__ == '__main__':
     main()
