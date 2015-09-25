@@ -158,7 +158,7 @@ api_1: screenshot 通过省份得到固定网页的截图 输入：isFlash=true&
 - imageName=testImageName ： 图片保存名称参数，可选，用于保存的图片名，默认 url(取出特殊字符)_地区拼音_useragent_时间戳.png
 
 
-	http://172.18.12.191:8083/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456&dirName=testImageDir&imageName=testImageName
+	http://172.18.12.191:8083/WebScreenshot?isFlash=true&url=http://ubmcmm.baidustatic.com/media/v1/0f0005TkYRYWPBHoEyanj0.swf%3Furl_type=1%26snapsho=%26&useragent=pcChrome&username=novaqa&token=123456&dirName=testImageDir&imageName=testImageName.png
 
 return Json:
 

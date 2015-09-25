@@ -6,28 +6,15 @@ import os
 import requests
 import logging
 import sys
+import ipProxy
+import config
+import ConfigParser
+import log
 
 
 TARGET_SERVER_ADDR = 'http://10.48.48.62:8089'
 TARGET_FILE_TYPE = '.jpg'
-logger = None
-
-def init_logger():
-    """
-    日志
-    """
-    global logger
-    log_file = 'log.txt'
-    logger = logging.getLogger()
-    file_hdl = logging.FileHandler(log_file)
-    stream_hdl = logging.StreamHandler()
-    fmt = logging.Formatter(
-        '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s')
-    file_hdl.setFormatter(fmt)
-    stream_hdl.setFormatter(fmt)
-    logger.addHandler(file_hdl)
-    logger.addHandler(stream_hdl)
-    logger.setLevel(logging.INFO)
+CONFIGFILE = "cityIp.cfg"
 
 
 def upload_files(target_folder, target_filenames):
@@ -39,16 +26,16 @@ def upload_files(target_folder, target_filenames):
     for file_name in target_filenames:
         full_file_name = os.path.join(
             cur_path, target_folder, file_name)
-        logger.info('send: {v}'.format(v=full_file_name))
+        logging.info('send: {v}'.format(v=full_file_name))
         file_content = {'file': open(full_file_name, 'rb')}
         
         try:
             response = requests.post(
                 TARGET_SERVER_ADDR, files=file_content)
-            logger.info('response: {v0}, {v1}'.format(
+            logging.info('response: {v0}, {v1}'.format(
                 v0=response.url, v1=response.text))
         except Exception as e:
-            logger.error('send faild: {v}'.format(v=e))
+            logging.error('send faild: {v}'.format(v=e))
 
 
 def get_file_list(target_folder):
@@ -61,12 +48,12 @@ def get_file_list(target_folder):
         for each_file in all_files:
             if each_file.endswith(TARGET_FILE_TYPE):
                 target_filenames.append(each_file)
-                logger.info('file: {v} found'.format(v=each_file))
+                logging.info('file: {v} found'.format(v=each_file))
     else:
-        logger.error('target folder {v} do not exist'.format(v=target_folder))
+        logging.error('target folder {v} do not exist'.format(v=target_folder))
 
     if len(target_filenames) == 0:
-        logger.info('no target file found')
+        logging.info('no target file found')
     return target_filenames
 
 
@@ -74,10 +61,22 @@ def main():
     """
     SendDataClient类，作为flashshot的服务
     """
-    init_logger()    
+
+    log.init_log('./logs/send_data_client')
+    config = ConfigParser.ConfigParser()
+    config.read(CONFIGFILE)
+    ip1 = config.get("info", "ip1")
+    logging.info('ip1 ' + ip1)
+    # 在传送图片前，先将本地代理IP关掉
+    ipProxy.setProxy("0")
     target_folder = sys.argv[1]
     target_filenames = get_file_list(target_folder)
     upload_files(target_folder, target_filenames)  
+    # 在传送图片后，将本地代理Ip继续设定
+    enableProxyScript = "python ipProxy.py " + ip1
+    os.popen(enableProxyScript)
+    # ipProxy.setProxy(ip1)
+    logging.info('setProxy ' + ip1)
 
 if __name__ == '__main__':
     main()

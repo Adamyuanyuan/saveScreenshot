@@ -15,7 +15,7 @@
 	172.18.12.135 BDSH00000050167\baidu Password123
 
 ##2. 安装必备环境
-所有必备的软件从[http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip](http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip)下载，直接IE浏览器打开这个链接即可下载，里面有 Python27, svn_win64, pip(可不装), gitBash, chrome, chromedriver, phantomjs, nginx(SVN代码中已有，可不装), sublime(可不装),
+所有必备的软件从[http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip](http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip)下载，直接IE浏览器打开这个链接即可下载，里面有 Python27, svn_win64, pip(可不装), gitBash, chrome, chromedriver, phantomjs, nginx(我上传的SVN代码中已有，可不装), sublime(可不装),
 下载好之后，解压到D盘，然后进行下述步骤
 
 1. 安装Python27，一直点击下一步即可，添加"C:\Python27;C:\Python27\Scripts" 到path系统变量
@@ -27,7 +27,7 @@
 	在phantomjs-2.0.0-windows.rar/bin/phantomjs.exe中，将 phantomjs.exe 直接复制到 "C:\Python27\Scripts" 目录即可
 	安装好后，进入cmd，输入 phantomjs --version 验证是否安装好
 4. 安装selenium: pip install -U selenium
-4. 安装svn_win64, gitBash(建议安装), sublime(建议安装):一直点击下一步即可
+4. 安装svn_win64(需要勾选命令行模式), gitBash(建议安装), sublime(建议安装):一直点击下一步即可
 
 5. 安装chrome, 点击下一步即可，然后将chromedriver 放在chrome.exe所在目录下，并设置chrome路径(一般是C:\Program Files (x86)\Google\Chrome\Application)在path中（设置环境变量）
 6. 安装web.py并将我的修改的代码覆盖源代码

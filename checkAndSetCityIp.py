@@ -24,7 +24,7 @@ import os
 import subprocess
 import sys
 
-CONFIGFILE="cityIp.cfg"
+CONFIGFILE = "cityIp.cfg"
 
 
 def makePath(pathDir):
