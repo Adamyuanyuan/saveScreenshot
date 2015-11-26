@@ -72,7 +72,7 @@ print HDL_targets
 HDL_cityCompileMap = {}
 #正则
 HDL_all = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
-HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>.+?(\d.{1,8}ms)</td>''', re.DOTALL)
+HDL_beijing = re.compile(r'''<td>.+?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+?</td>.+?(\d{2,5}).+?</td>.+?<td>(.+?) (.+?) .+?</td>.+?</td>''', re.DOTALL)
 
 # 它们的正则表达式是一样的
 HDL_cityCompileMap["all"] = HDL_all
@@ -141,7 +141,9 @@ class ProxyGet(threading.Thread):
             # province_en = config.REGION
             # 中文所在城市名称
             city_cn = row[3]
-            speed = row[4]
+            # speed = row[4] fixbug 解决了一页的代理IP速度为超时时，无法通过'*ms'正则式匹配代理IP的问题
+            # 24 is Kobe's number, just for fix bug more miror
+            speed = 24
             proxy = [ip + ":" + port, province_en, city_cn, speed]
             print(proxy)
             rawProxyDir[proxy[0]] = proxy
@@ -191,7 +193,7 @@ def main():
     getThreads=[]
     checkThreads=[]
     getProxyFromFile(config.REGION)
-    print("上次代理IP文件中共有代理：" + len(rawProxyDir))
+    print("上次代理IP文件中共有代理：" + str(len(rawProxyDir)))
 
     # 对西祠网站开启一个线程负责抓取代理
     for i in range(len(XC_targets)):

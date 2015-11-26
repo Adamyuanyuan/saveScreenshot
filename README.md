@@ -13,6 +13,16 @@
 	172.18.12.192 BDSY000067374\baidu Password123 四川
 	172.18.12.191 adam-PC\adam Caphi2009 性能差,备用
 	172.18.12.135 BDSH00000050167\baidu Password123
+-----------------2015.11月，断电后IP更改-----------------
+	
+	控制机： 
+	172.18.12.189 adam-PC\adam Password123
+	截图机器：
+	北京：172.18.12.134 BDSH00000048068\baidu Password123
+	北京：172.18.12.187 BDSY000067408\baidu Password123
+	四川：172.18.12.133 BDSH00000050167\baidu Password123
+	四川：172.18.12.184 BDSY000067374\baidu Password123
+
 
 ##2. 安装必备环境
 所有必备的软件从[http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip](http://cq01-testing-ecom6507.cq01.baidu.com:8485/screenShotFiles2.zip)下载，直接IE浏览器打开这个链接即可下载，里面有 Python27, svn_win64, pip(可不装), gitBash, chrome, chromedriver, phantomjs, nginx(我上传的SVN代码中已有，可不装), sublime(可不装),

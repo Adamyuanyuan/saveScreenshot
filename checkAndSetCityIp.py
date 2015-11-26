@@ -50,9 +50,10 @@ logger = initLog()
 
 def checkProxy(proxy):
     """检查Proxy逻辑"""
+    # testUrl = "https://www.fudan.edu.cn/"
+    # testStr = "042465"
     testUrl = "https://www.sogou.com/"
     testStr = "050897"
-    # testStr = "050897"
     # testUrl = "https://www.baidu.com/"
     # testStr = "030173"
     timeout = 3
@@ -125,13 +126,16 @@ def getIpfromProxyList(exceptIp):
 def main():
     """main"""
     logger.info("------------start--------------")
-    configFile = ConfigParser.ConfigParser()
-    configFile.read(CONFIGFILE)
+    config = ConfigParser.ConfigParser()
+    config.read(CONFIGFILE)
 
-    ip1 = configFile.get("info", "ip1")
-    ip2 = configFile.get("info", "ip2")
-    uping = configFile.get("info", "uping")
-    if uping == 1:
+    ip1 = config.get("info", "ip1")
+    ip2 = config.get("info", "ip2")
+    uping = config.get("info", "uping")
+    # 
+    if uping == "1":
+        print("uping ")
+        logger.info("uping! return!")
         return
     logger.info(ip1)
     print(ip1)
@@ -148,8 +152,8 @@ def main():
             print("ip2 need selectedIp")
             # 从IP列表中找到IP不是ip1的IP并验证
             selectedIp = getIpfromProxyList(ip1)
-            configFile.set("info", "ip2", selectedIp)
-            configFile.write(open(CONFIGFILE, "w"))
+            config.set("info", "ip2", selectedIp)
+            config.write(open(CONFIGFILE, "w"))
             return
 
     else:
@@ -158,9 +162,9 @@ def main():
             print("ip2 --> ip1")
             ipProxy.setProxy(ip2)
             selectedIp = getIpfromProxyList(ip2)
-            configFile.set("info", "ip1", ip2)
-            configFile.set("info", "ip2", selectedIp)
-            configFile.write(open(CONFIGFILE, "w"))
+            config.set("info", "ip1", ip2)
+            config.set("info", "ip2", selectedIp)
+            config.write(open(CONFIGFILE, "w"))
             return
 
         # 如果两个IP都不可用，查找之后的ip仍然不可用，则驱动例行的grapCityIp.py提前执行
@@ -188,9 +192,9 @@ def main():
 
             ipProxy.setProxy(selectedIp1)
             selectedIp2 = getIpfromProxyList(selectedIp1)
-            configFile.set("info", "ip1", selectedIp1)
-            configFile.set("info", "ip2", selectedIp2)
-            configFile.write(open(CONFIGFILE, "w"))
+            config.set("info", "ip1", selectedIp1)
+            config.set("info", "ip2", selectedIp2)
+            config.write(open(CONFIGFILE, "w"))
             return
 
 if __name__ == "__main__":
