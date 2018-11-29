@@ -1,7 +1,7 @@
-# baidu_saveScreenshot
+# saveScreenshot
 自动化异地跨平台网页截图工具的开发
 
-# 安装方式_百度内部
+# 安装方式
 ##1. 使用mstsc远程连接要安装的windows服务器:
 	开始--> 运行--> 输入mstsc
 	点选项, 分别输入 172.18.12.134 BDSH00000048068\baidu 密码为 Password123
